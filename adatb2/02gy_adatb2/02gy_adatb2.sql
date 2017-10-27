@@ -1,26 +1,26 @@
 /*************************************************/
-/**********       EgyÈb objektumok       *********/
+/**********       Egy√©b objektumok       *********/
 /**********  (DBA_SYNONYMS, DBA_VIEWS,   *********/
 /********** DBA_SEQUENCES, DBA_DB_LINKS) *********/   
 /*************************************************/
 
 ---=== 1. feladat ===---
 /*
-Adjuk ki az al·bbi utasÌt·st (ARAMIS adatb·zisban)
+Adjuk ki az al√°bbi utas√≠t√°st (ARAMIS adatb√°zisban)
   SELECT * FROM sz1;
-majd derÌts¸k ki, hogy kinek melyik t·bl·j·t kÈrdezt¸k le. 
-(Ha esetleg nÈzettel tal·lkozunk, azt is fejts¸k ki, hogy az mit kÈrdez le.)
+majd der√≠ts√ºk ki, hogy kinek melyik t√°bl√°j√°t k√©rdezt√ºk le. 
+(Ha esetleg n√©zettel tal√°lkozunk, azt is fejts√ºk ki, hogy az mit k√©rdez le.)
 */
 
 SELECT owner, object_name, object_type
 FROM dba_objects
 WHERE object_name = 'SZ1';
---KiderÌtett¸k, hogy SZ1 egy synonym
+--Kider√≠tett√ºk, hogy SZ1 egy synonym
 
 SELECT table_name
 FROM dba_synonyms
 WHERE synonym_name = 'SZ1';
---KiderÌtett¸k, hogy V1-re mutat
+--Kider√≠tett√ºk, hogy V1-re mutat
 
 SELECT text
 FROM dba_views
@@ -28,15 +28,15 @@ WHERE view_name = 'V1';
 
 ---=== 2. feladat ===---
 /*
-Hozzunk lÈtre egy szekvenci·t, amelyik az oszt·ly azonosÌtÛkat fogja gener·lni
-a sz·munkra. Minden oszt·ly azonosÌtÛ a 10-nek tˆbbszˆrˆse legyen.
-Vigy¸nk fel 3 ˙j oszt·lyt Ès oszt·lyonkÈnt minimum 3 dolgozÛt a t·bl·kba. 
-Az oszt·ly azonosÌtÛkat a szekvencia segÌtsÈgÈvel ·llÌtsuk elı, Ès ezt tegy¸k
-be a t·bl·ba. (Vagyis ne kÈzzel Ìrjuk be a 10, 20, 30 ... stb. azonosÌtÛt.)
-A felvitel ut·n mÛdosÌtsuk a 10-es oszt·ly azonosÌtÛj·t a kˆvetkezı ÈrvÈnyes (gener·lt)
-oszt·ly azonosÌtÛra. (Itt is a szekvencia segÌtsÈgÈvel adjuk meg, hogy mi lesz a 
-kˆvetkezı azonosÌtÛ.) A 10-es oszt·ly dolgozÛinak az oszt·lyazonosÌtÛ ertÈkÈt is 
-mÛdosÌtsuk az ˙j ÈrtÈkre.
+Hozzunk l√©tre egy szekvenci√°t, amelyik az oszt√°ly azonos√≠t√≥kat fogja gener√°lni
+a sz√°munkra. Minden oszt√°ly azonos√≠t√≥ a 10-nek t√∂bbsz√∂r√∂se legyen.
+Vigy√ºnk fel 3 √∫j oszt√°lyt √©s oszt√°lyonk√©nt minimum 3 dolgoz√≥t a t√°bl√°kba. 
+Az oszt√°ly azonos√≠t√≥kat a szekvencia seg√≠ts√©g√©vel √°ll√≠tsuk el≈ë, √©s ezt tegy√ºk
+be a t√°bl√°ba. (Vagyis ne k√©zzel √≠rjuk be a 10, 20, 30 ... stb. azonos√≠t√≥t.)
+A felvitel ut√°n m√≥dos√≠tsuk a 10-es oszt√°ly azonos√≠t√≥j√°t a k√∂vetkez≈ë √©rv√©nyes (gener√°lt)
+oszt√°ly azonos√≠t√≥ra. (Itt is a szekvencia seg√≠ts√©g√©vel adjuk meg, hogy mi lesz a 
+k√∂vetkez≈ë azonos√≠t√≥.) A 10-es oszt√°ly dolgoz√≥inak az oszt√°lyazonos√≠t√≥ ert√©k√©t is 
+m√≥dos√≠tsuk az √∫j √©rt√©kre.
 */
 
 CREATE SEQUENCE class_id_seq
@@ -72,44 +72,44 @@ drop table husi_dolgozo;
 
 ---=== 3. feladat ===---
 /*
-Hozzunk lÈtre adatb·zis-kapcsolÛt (database link) a GRID97 adatb·zisban,
-amelyik a m·sik (ARAMIS) adatb·zisra mutat. 
+Hozzunk l√©tre adatb√°zis-kapcsol√≥t (database link) a GRID97 adatb√°zisban,
+amelyik a m√°sik (ARAMIS) adatb√°zisra mutat. 
 CREATE DATABASE LINK aramis CONNECT TO felhasznalo IDENTIFIED BY jelszo
 USING 'aramis';
-Ennek segÌtsÈgÈvel adjuk meg a kˆvetkezı lekÈrdezÈseket. 
-A lekÈrdezÈsek alapj·ul szolg·lÛ t·bl·k:
+Ennek seg√≠ts√©g√©vel adjuk meg a k√∂vetkez≈ë lek√©rdez√©seket. 
+A lek√©rdez√©sek alapj√°ul szolg√°l√≥ t√°bl√°k:
 
-NIKOVITS.VILAG_ORSZAGAI   GRID97 adatb·zis
-NIKOVITS.FOLYOK           ARAMIS adatb·zis
+NIKOVITS.VILAG_ORSZAGAI   GRID97 adatb√°zis
+NIKOVITS.FOLYOK           ARAMIS adatb√°zis
 
-Az orsz·gok egyedi azonosÌtÛja a TLD (Top Level Domain) oszlop.
-Az orsz·g hivatalos nyelveit vesszıkkel elv·lasztva a NYELV oszlop tartalmazza.
-A GDP (Gross Domestic Product -> hazai bruttÛ ˆssztermÈk) doll·rban van megadva.
-A folyÛk egyedi azonosÌtÛja a NEV oszlop.
-A folyÛk vÌzhozama m3/s-ban van megadva, a vÌzgy˚jtı ter¸let¸k km2-ben.
-A folyÛ ·ltal Èrintett orsz·gok azonosÌtÛit (TLD) a forr·stÛl a torkolatig 
-(megfelelı sorrendben vesszıkkel elv·lasztva) az ORSZAGOK oszlop tartalmazza.
-A FORRAS_ORSZAG Ès TORKOLAT_ORSZAG hasonlÛ mÛdon a megfelelı orsz·gok azonosÌtÛit
-tartalmazza. (Vigy·zat!!! egy folyÛ torkolata orsz·ghat·rra is eshet, pl. Duna)
+Az orsz√°gok egyedi azonos√≠t√≥ja a TLD (Top Level Domain) oszlop.
+Az orsz√°g hivatalos nyelveit vessz≈ëkkel elv√°lasztva a NYELV oszlop tartalmazza.
+A GDP (Gross Domestic Product -> hazai brutt√≥ √∂sszterm√©k) doll√°rban van megadva.
+A foly√≥k egyedi azonos√≠t√≥ja a NEV oszlop.
+A foly√≥k v√≠zhozama m3/s-ban van megadva, a v√≠zgy≈±jt≈ë ter√ºlet√ºk km2-ben.
+A foly√≥ √°ltal √©rintett orsz√°gok azonos√≠t√≥it (TLD) a forr√°st√≥l a torkolatig 
+(megfelel≈ë sorrendben vessz≈ëkkel elv√°lasztva) az ORSZAGOK oszlop tartalmazza.
+A FORRAS_ORSZAG √©s TORKOLAT_ORSZAG hasonl√≥ m√≥don a megfelel≈ë orsz√°gok azonos√≠t√≥it
+tartalmazza. (Vigy√°zat!!! egy foly√≥ torkolata orsz√°ghat√°rra is eshet, pl. Duna)
 
 
-- Adjuk meg azoknak az orsz·goknak a nevÈt, amelyeket a Mekong nev˚ folyÛ Èrint.
+- Adjuk meg azoknak az orsz√°goknak a nev√©t, amelyeket a Mekong nev≈± foly√≥ √©rint.
 
--* Adjuk meg azoknak az orsz·goknak a nevÈt, amelyeket a Mekong nev˚ folyÛ Èrint.
-   Most az orsz·gok nevÈt a megfelelı sorrendben (foly·sir·nyban) adjuk meg.
+-* Adjuk meg azoknak az orsz√°goknak a nev√©t, amelyeket a Mekong nev≈± foly√≥ √©rint.
+   Most az orsz√°gok nev√©t a megfelel≈ë sorrendben (foly√°sir√°nyban) adjuk meg.
 */
 
---GRID97 mÈg mindig nem m¸xik :'(
+--GRID97 m√©g mindig nem m√ºxik :'(
 
 /*******************************************************************/
-/***              Adatt·rol·ssal kapcsolatos fogalmak            ***/
+/***              Adatt√°rol√°ssal kapcsolatos fogalmak            ***/
 /***         (DBA_TABLES, DBA_DATA_FILES, DBA_TEMP_FILES,        ***/
 /*** DBA_TABLESPACES, DBA_SEGMENTS, DBA_EXTENTS, DBA_FREE_SPACE) ***/
 /*******************************************************************/
 
 ---=== 1. feladat ===---
---Adjuk meg az adatb·zishoz tartozÛ adatfile-ok (Ès tempor·lis f·jlok) nevÈt Ès mÈretÈt
---mÈret szerint csˆkkenı sorrendben.
+--Adjuk meg az adatb√°zishoz tartoz√≥ adatfile-ok (√©s tempor√°lis f√°jlok) nev√©t √©s m√©ret√©t
+--m√©ret szerint cs√∂kken≈ë sorrendben.
 
 SELECT file_name, bytes
 FROM dba_data_files
@@ -120,7 +120,7 @@ ORDER BY bytes DESC;
 Adjuk meg, hogy milyen tablaterek vannak letrehozva az adatbazisban,
 az egyes tablaterek hany adatfajlbol allnak, es mekkora az osszmeretuk.
 (tablater_nev, fajlok_szama, osszmeret)
-!!! Vigy·zat, van tempor·lis t·blatÈr is.
+!!! Vigy√°zat, van tempor√°lis t√°blat√©r is.
 */
 
 (
@@ -136,23 +136,23 @@ UNION
 );
 
 ---=== 3. feladat ===---
---Mekkora az adatblokkok merete a USERS t·blatÈren?
+--Mekkora az adatblokkok merete a USERS t√°blat√©ren?
 
 SELECT block_size
 FROM dba_tablespaces
 WHERE tablespace_name = 'USERS';
 
 ---=== 4. feladat ===---
---Van-e olyan t·blatÈr, amelynek nincs DBA_DATA_FILES-beli adatf·jlja?
---Ennek adatai hol t·rolÛdnak? -> DBA_TEMP_FILES
+--Van-e olyan t√°blat√©r, amelynek nincs DBA_DATA_FILES-beli adatf√°jlja?
+--Ennek adatai hol t√°rol√≥dnak? -> DBA_TEMP_FILES
 
---van :D Ez azt·n egy nehÈz feladato volt
+select tablespace_name from dba_tablespaces where tablespace_name not in (select distinct tablespace_name from dba_data_files); //ha ennek van visszateresi erteke, akkor igen
 
 ---=== 5. feladat ===---
---Melyik a legnagyobb mÈret˚ t·bla szegmens az adatb·zisban (a tulajdonost is adjuk meg) 
---Ès h·ny extensbıl ·ll? (A particion·lt t·bl·kat most ne vegy¸k figyelembe.)
+--Melyik a legnagyobb m√©ret≈± t√°bla szegmens az adatb√°zisban (a tulajdonost is adjuk meg) 
+--√©s h√°ny extensb≈ël √°ll? (A particion√°lt t√°bl√°kat most ne vegy√ºk figyelembe.)
 
---Legnagyobb mÈret vajon mire utal? A megold·s hasonlÛ akkor is, ha nem byte-ra, hanem extensre gondolt.
+--Legnagyobb m√©ret vajon mire utal? A megold√°s hasonl√≥ akkor is, ha nem byte-ra, hanem extensre gondolt.
 
 SELECT owner, segment_name, extents
 FROM (
@@ -163,7 +163,7 @@ FROM (
 WHERE rownum = 1;
 
 ---=== 6. feladat ===---
---Melyik a legnagyobb meret˚ index szegmens az adatb·zisban Ès h·ny blokkbÛl ·ll?
+--Melyik a legnagyobb meret≈± index szegmens az adatb√°zisban √©s h√°ny blokkb√≥l √°ll?
 --(A particionalt indexeket most ne vegyuk figyelembe.)
 
 SELECT owner, segment_name, blocks
@@ -176,17 +176,17 @@ FROM (
 WHERE rownum = 1;
 
 ---=== 7. feldat ===---
---Adjuk meg adatf·jlonkent, hogy az egyes adatf·jlokban mennyi a foglalt 
---hely osszesen (Ìrassuk ki a f·jlok mÈretÈt is).
+--Adjuk meg adatf√°jlonkent, hogy az egyes adatf√°jlokban mennyi a foglalt 
+--hely osszesen (√≠rassuk ki a f√°jlok m√©ret√©t is).
 
---Nem vagyok benne biztos hogy jÛl Èrtelmeztem a feladatot
+--Nem vagyok benne biztos hogy j√≥l √©rtelmeztem a feladatot
 
 SELECT file_name, bytes AS occupied_space
 FROM dba_data_files;
 
 ---=== 8. feladat ===---
 --Melyik ket felhasznalo objektumai foglalnak osszesen a legtobb helyet az adatbazisban?
---Vagyis ki foglal a legtˆbb helyet, Ès ki a m·sodik legtˆbbet?
+--Vagyis ki foglal a legt√∂bb helyet, √©s ki a m√°sodik legt√∂bbet?
 
 SELECT owner, allocated_space
 FROM (
@@ -198,7 +198,7 @@ FROM (
 WHERE rownum <= 2;
 
 ---=== 9. feladat ===---
---H·ny extens van a 'users01.dbf' adatf·jlban? Mekkora ezek ˆsszmÈrete?
+--H√°ny extens van a 'users01.dbf' adatf√°jlban? Mekkora ezek √∂sszm√©rete?
 
 SELECT sum(extents)
 FROM dba_data_files f CROSS JOIN dba_segments s
@@ -206,7 +206,7 @@ WHERE file_name LIKE '%users01.dbf' AND f.tablespace_name = s.tablespace_name
 GROUP BY file_name;
 
 ---=== 10. feladat ===---
---H·ny ˆsszef¸ggı szabad ter¸let van a 'users01.dbf' adatf·jlban? Mekkora ezek ˆsszmÈrete?
+--H√°ny √∂sszef√ºgg≈ë szabad ter√ºlet van a 'users01.dbf' adatf√°jlban? Mekkora ezek √∂sszm√©rete?
 
 SELECT count(*), sum(s.bytes)
 FROM dba_data_files f CROSS JOIN dba_free_space s
@@ -214,14 +214,14 @@ WHERE file_name LIKE '%users01.dbf' AND f.tablespace_name = s.tablespace_name
 GROUP BY file_name;
 
 ---=== 11. feladat ===---
---H·ny sz·zalÈkban foglalt a 'users01.dbf' adatf·jl?
+--H√°ny sz√°zal√©kban foglalt a 'users01.dbf' adatf√°jl?
 
---Amennyiben arra gondolt hogy a max mÈret a MAXBYTES oszlop
+--Amennyiben arra gondolt hogy a max m√©ret a MAXBYTES oszlop
 SELECT trunc(bytes / maxbytes * 100, 2) AS used_percentage
 FROM dba_data_files
 WHERE file_name LIKE '%users01.dbf';
 
---Amennyiben arra gondolt hogy a max mÈret az amit kor·bban kisz·moltunk oszlop
+--Amennyiben arra gondolt hogy a max m√©ret az amit kor√°bban kisz√°moltunk oszlop
 SELECT trunc(bytes / (bytes + (
     SELECT sum(s.bytes)
     FROM dba_data_files f CROSS JOIN dba_free_space s
@@ -232,7 +232,7 @@ FROM dba_data_files
 WHERE file_name LIKE '%users01.dbf';
 
 ---=== 12. feladat ===---
---Van-e a NIKOVITS felhaszn·lÛnak olyan t·bl·ja, amelyik tˆbb adatf·jlban is foglal helyet? (Aramis)
+--Van-e a NIKOVITS felhaszn√°l√≥nak olyan t√°bl√°ja, amelyik t√∂bb adatf√°jlban is foglal helyet? (Aramis)
 
 SELECT segment_name, count( distinct file_id)
 FROM dba_extents
@@ -241,32 +241,32 @@ GROUP BY segment_name
 HAVING count( distinct file_id ) > 1;
 
 ---=== 13. feladat ===---
---V·lasszunk ki a fenti t·bl·kbÛl egyet (pl. tabla_123) Ès adjuk meg, hogy ez a 
---t·bla mely adatf·jlokban foglal helyet.
+--V√°lasszunk ki a fenti t√°bl√°kb√≥l egyet (pl. tabla_123) √©s adjuk meg, hogy ez a 
+--t√°bla mely adatf√°jlokban foglal helyet.
 
 SELECT distinct file_name
 FROM dba_extents e CROSS JOIN dba_data_files f
 WHERE segment_name = 'TABLA_123' AND owner = 'NIKOVITS' AND segment_type = 'TABLE' AND e.file_id = f.file_id;
 
 ---=== 14. feladat ===---
---Melyik t·blatÈren van az ORAUSER felhaszn·lÛ dolgozo t·bl·ja?
+--Melyik t√°blat√©ren van az ORAUSER felhaszn√°l√≥ dolgozo t√°bl√°ja?
 
 SELECT tablespace_name
 FROM dba_tables
 WHERE owner = 'ORAUSER' AND table_name = 'DOLGOZO';
 
 ---=== 15. feladat ===---
---Melyik t·blatÈren van a NIKOVITS felhaszn·lÛ ELADASOK t·bl·ja? (MiÈrt lesz null?)
+--Melyik t√°blat√©ren van a NIKOVITS felhaszn√°l√≥ ELADASOK t√°bl√°ja? (Mi√©rt lesz null?)
 
 SELECT tablespace_name
 FROM dba_tables
 WHERE owner = 'NIKOVITS' AND table_name = 'ELADASOK';
---nem tudom a v·laszt :D
+--nem tudom a v√°laszt :D
 
 ---=== 16. feladat ===---
---Õrjunk meg egy PLSQL proced˙r·t, amelyik a paramÈter¸l kapott felhaszn·lÛnÈvre kiÌrja 
---a felhaszn·lÛ legrÈgebben lÈtrehozott t·bl·j·t, annak mÈretÈt byte-okban, valamint a lÈtrehoz·s
---d·tumat.
+--√çrjunk meg egy PLSQL proced√∫r√°t, amelyik a param√©ter√ºl kapott felhaszn√°l√≥n√©vre ki√≠rja 
+--a felhaszn√°l√≥ legr√©gebben l√©trehozott t√°bl√°j√°t, annak m√©ret√©t byte-okban, valamint a l√©trehoz√°s
+--d√°tumat.
 
 CREATE OR REPLACE PROCEDURE regi_tabla(p_user VARCHAR2) IS 
     CURSOR curs IS
