@@ -25,6 +25,13 @@ WHERE synonym_name = 'SZ1';
 SELECT text
 FROM dba_views
 WHERE view_name = 'V1';
+--Kiderítettük, hogy a V1 nézethez a HR.EMPLOYEES táblát használja
+
+SELECT owner, object_name, object_type, DATA_OBJECT_ID
+FROM DBA_OBJECTS
+WHERE owner = 'HR' AND object_name = 'EMPLOYEES';
+--Kiderítettük, hogy van ilyen tábla és az biztosan tábla, hiszen a data_object_id nem NULL, így az fizikailag is létezik.
+--Kész
 
 ---=== 2. feladat ===---
 /*
@@ -109,10 +116,11 @@ tartalmazza. (Vigyázat!!! egy folyó torkolata országhatárra is eshet, pl. Du
 
 ---=== 1. feladat ===---
 --Adjuk meg az adatbázishoz tartozó adatfile-ok (és temporális fájlok) nevét és méretét
---méret szerint csökkenő sorrendben.
+--méret szerint csökkenő sorrendben.             ^^^^^^^^^^^^^^^^^^^^
 
-SELECT file_name, bytes
-FROM dba_data_files
+(SELECT file_name, bytes FROM DBA_TEMP_FILES)
+  UNION
+(SELECT file_name, bytes FROM DBA_DATA_FILES)
 ORDER BY bytes DESC;
 
 ---=== 2. feladat ===---
@@ -154,7 +162,7 @@ select tablespace_name from dba_tablespaces where tablespace_name not in (select
 
 --Legnagyobb méret vajon mire utal? A megoldás hasonló akkor is, ha nem byte-ra, hanem extensre gondolt.
 
-SELECT owner, segment_name, extents
+SELECT *
 FROM (
     SELECT owner, segment_name, extents
     FROM dba_segments
@@ -166,7 +174,7 @@ WHERE rownum = 1;
 --Melyik a legnagyobb meretű index szegmens az adatbázisban és hány blokkból áll?
 --(A particionalt indexeket most ne vegyuk figyelembe.)
 
-SELECT owner, segment_name, blocks
+SELECT *
 FROM (
     SELECT owner, segment_name, blocks
     FROM dba_segments
@@ -188,7 +196,7 @@ FROM dba_data_files;
 --Melyik ket felhasznalo objektumai foglalnak osszesen a legtobb helyet az adatbazisban?
 --Vagyis ki foglal a legtöbb helyet, és ki a második legtöbbet?
 
-SELECT owner, allocated_space
+SELECT *
 FROM (
     SELECT owner, sum(bytes) AS allocated_space
     FROM dba_segments
