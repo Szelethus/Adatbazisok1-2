@@ -1,4 +1,4 @@
-# Adatbázisok 1-2
+﻿# Adatbázisok 1-2
 
 ## Konvenciók
 
@@ -7,7 +7,7 @@
 * Amennyiben egy feladat megoldása nem jó vagy nem biztos hogy jó, az legyen jól láthatóan felűntetve!
 * Halmazműveletek esetén legyenek jól elkülíthetőek a lekérdezések!
 * Hosszabb lekérdezések esetén több sorba legyen tördeljünk!
-* A kulcsszavak nagybetűvel legyenek írva!
+* A kulcsszavak nagybetűvel legyenek írva, minden egyéb kisbetűvel (e téren még korábbi kódokat is kéne update-elni)!
 
 NEM OK:
 ```SQL

@@ -73,9 +73,9 @@ BEGIN
 END;
 /
 
-drop sequence class_id_seq;
-drop table husi_osztaly;
-drop table husi_dolgozo;
+DROP SEQUENCE class_id_seq;
+DROP TABLE husi_osztaly;
+DROP TABLE husi_dolgozo;
 
 ---=== 3. feladat ===---
 /*
@@ -154,7 +154,13 @@ WHERE tablespace_name = 'USERS';
 --Van-e olyan táblatér, amelynek nincs DBA_DATA_FILES-beli adatfájlja?
 --Ennek adatai hol tárolódnak? -> DBA_TEMP_FILES
 
-select tablespace_name from dba_tablespaces where tablespace_name not in (select distinct tablespace_name from dba_data_files); //ha ennek van visszateresi erteke, akkor igen
+SELECT tablespace_name 
+FROM dba_tablespaces 
+WHERE tablespace_name 
+NOT IN (
+    SELECT DISTINCT tablespace_name 
+    FROM dba_data_files
+); --ha ennek van visszateresi erteke, akkor igen
 
 ---=== 5. feladat ===---
 --Melyik a legnagyobb méretű tábla szegmens az adatbázisban (a tulajdonost is adjuk meg) 
@@ -288,7 +294,7 @@ CREATE OR REPLACE PROCEDURE regi_tabla(p_user VARCHAR2) IS
 BEGIN
     OPEN curs;
     FETCH curs INTO rec;
-    IF curs%NOTFOUND THEN
+    IF curs%FOUND THEN
     
         SELECT bytes INTO occupied_bytes
         FROM dba_segments

@@ -1,11 +1,11 @@
-Papíron megoldandó feladat
+PapÃ­ron megoldandÃ³ feladat
 ==========================
 
-Kiterjeszthetõ hasító index (vagy másképp kiterjeszthetõ tördelõtáblázat)
+KiterjeszthetÅ‘ hasÃ­tÃ³ index (vagy mÃ¡skÃ©pp kiterjeszthetÅ‘ tÃ¶rdelÅ‘tÃ¡blÃ¡zat)
 ---------------------------
-A kosártömb mérete mindig pontosan 2**i.
-Tegyük fel, hogy egy blokkba 2 rekord fér el, j értéke (a blokkok jobb oldalán) azt jelzi, 
-hogy hány bit használatos a blokkhoz tartozás eldöntésére.
+A kosÃ¡rtÃ¶mb mÃ©rete mindig pontosan 2**i.
+TegyÃ¼k fel, hogy egy blokkba 2 rekord fÃ©r el, j Ã©rtÃ©ke (a blokkok jobb oldalÃ¡n) azt jelzi, 
+hogy hÃ¡ny bit hasznÃ¡latos a blokkhoz tartozÃ¡s eldÃ¶ntÃ©sÃ©re.
 
 i=1
     ----       0001
@@ -15,115 +15,115 @@ i=1
     ----       1100 
                ----1 
  
-  kosártömb    blokkok
+  kosÃ¡rtÃ¶mb    blokkok
 
-Szúrjuk be az alábbi hasító értékkel rendelkezõ sorokat egymás után, és minden 
-újabb blokk létrehozása után rajzoljuk újra a kosártömböt és a blokkokat. 
+SzÃºrjuk be az alÃ¡bbi hasÃ­tÃ³ Ã©rtÃ©kkel rendelkezÅ‘ sorokat egymÃ¡s utÃ¡n, Ã©s minden 
+Ãºjabb blokk lÃ©trehozÃ¡sa utÃ¡n rajzoljuk Ãºjra a kosÃ¡rtÃ¶mbÃ¶t Ã©s a blokkokat. 
 
 0011, 0110, 1011, 0111, 1110, 1111, 0100
 
 
-Egy kis segítség:
+Egy kis segÃ­tsÃ©g:
 ----------------
 
-A K kulcsú rekordot h(K) elsõ i bitje alapján helyezzük el úgy, hogy követjük 
-a kosártömb ezen bejegyzéséhez tartozó mutatót.
-Ha nincs hely a megtalált blokkban akkor a következõt tesszük:
-1. Ha j < i akkor újabb blokkot hozunk létre és a j+1-edik bit alapján kettéosztjuk a 
-   rekordokat a két blokk között (mindkét blokkra j+1 lesz az új érték), majd 
-   a kosártömb szükséges mutatóit az új blokkra irányítjuk.
-2. Ha j = i akkor elõször i-t növeljük 1-gyel, megduplázzuk a kosártömböt, új mutatókat
-   teszünk bele, majd alkalmazzuk 1.-et.
+A K kulcsÃº rekordot h(K) elsÅ‘ i bitje alapjÃ¡n helyezzÃ¼k el Ãºgy, hogy kÃ¶vetjÃ¼k 
+a kosÃ¡rtÃ¶mb ezen bejegyzÃ©sÃ©hez tartozÃ³ mutatÃ³t.
+Ha nincs hely a megtalÃ¡lt blokkban akkor a kÃ¶vetkezÅ‘t tesszÃ¼k:
+1. Ha j < i akkor Ãºjabb blokkot hozunk lÃ©tre Ã©s a j+1-edik bit alapjÃ¡n kettÃ©osztjuk a 
+   rekordokat a kÃ©t blokk kÃ¶zÃ¶tt (mindkÃ©t blokkra j+1 lesz az Ãºj Ã©rtÃ©k), majd 
+   a kosÃ¡rtÃ¶mb szÃ¼ksÃ©ges mutatÃ³it az Ãºj blokkra irÃ¡nyÃ­tjuk.
+2. Ha j = i akkor elÅ‘szÃ¶r i-t nÃ¶veljÃ¼k 1-gyel, megduplÃ¡zzuk a kosÃ¡rtÃ¶mbÃ¶t, Ãºj mutatÃ³kat
+   teszÃ¼nk bele, majd alkalmazzuk 1.-et.
 
 
-Lineáris hasító index (vagy másképp lineáris tördelõtáblázat)
+LineÃ¡ris hasÃ­tÃ³ index (vagy mÃ¡skÃ©pp lineÃ¡ris tÃ¶rdelÅ‘tÃ¡blÃ¡zat)
 ---------------------
-Tegyük fel, hogy egy blokkba 2 rekord fér el és a kosarak az alábbi rekordokat tartalmazzák:
+TegyÃ¼k fel, hogy egy blokkba 2 rekord fÃ©r el Ã©s a kosarak az alÃ¡bbi rekordokat tartalmazzÃ¡k:
 
 0000   0101
 1110   
 ----   ----   
  0      1    
 
-A kosarakat 0-tól indexeljük, és a kosár sorszámát binárisan ábrázoljuk, vagyis
-majd a 2. kosár -> 10, 3. kosár -> 11, 9. kosár -> 1001 stb.
-Az elõre megadott küszöbszám (rekordok száma/kosarak száma) legyen 2,4.
-Jelenleg m = 1 (a legnagyobb használt kosárindex)
+A kosarakat 0-tÃ³l indexeljÃ¼k, Ã©s a kosÃ¡r sorszÃ¡mÃ¡t binÃ¡risan Ã¡brÃ¡zoljuk, vagyis
+majd a 2. kosÃ¡r -> 10, 3. kosÃ¡r -> 11, 9. kosÃ¡r -> 1001 stb.
+Az elÅ‘re megadott kÃ¼szÃ¶bszÃ¡m (rekordok szÃ¡ma/kosarak szÃ¡ma) legyen 2,4.
+Jelenleg m = 1 (a legnagyobb hasznÃ¡lt kosÃ¡rindex)
 
-Szúrjuk be az alábbi hasító értékkel rendelkezõ sorokat egymás után, és minden 
-újabb kosár megnyitás után rajzoljuk újra a kosarakat. 
+SzÃºrjuk be az alÃ¡bbi hasÃ­tÃ³ Ã©rtÃ©kkel rendelkezÅ‘ sorokat egymÃ¡s utÃ¡n, Ã©s minden 
+Ãºjabb kosÃ¡r megnyitÃ¡s utÃ¡n rajzoljuk Ãºjra a kosarakat. 
 
 0001, 0110, 1011, 0111, 1100, 1111, 0100
 
 
-Egy kis segítség:
+Egy kis segÃ­tsÃ©g:
 ----------------
 
-Ha n kosarunk van, akkor a K kulcsú rekordot h(K) utolsó i bitje alapján tesszük a 
-megfelelõ kosárba (i=log2n, illetve annak felsõ egész része). 
-Ha nincs benne hely, akkor újabb blokkot láncolunk ehhez a kosárhoz.
-Ha nincs ilyen kosár, akkor az elsõ bitben különbözõ kosárba tesszük.
-Ha az elõre megadott küszöböt átléptük, akkor új kosarat nyitunk és esetlegesen 
- átpakoljuk a szükséges rekordokat az új kosárba.
-Ha n nagyobb lesz 2**i-nél növeljük i-t 1-gyel (0-át írunk a kosárindexek elé).
+Ha n kosarunk van, akkor a K kulcsÃº rekordot h(K) utolsÃ³ i bitje alapjÃ¡n tesszÃ¼k a 
+megfelelÅ‘ kosÃ¡rba (i=log2n, illetve annak felsÅ‘ egÃ©sz rÃ©sze). 
+Ha nincs benne hely, akkor Ãºjabb blokkot lÃ¡ncolunk ehhez a kosÃ¡rhoz.
+Ha nincs ilyen kosÃ¡r, akkor az elsÅ‘ bitben kÃ¼lÃ¶nbÃ¶zÅ‘ kosÃ¡rba tesszÃ¼k.
+Ha az elÅ‘re megadott kÃ¼szÃ¶bÃ¶t Ã¡tlÃ©ptÃ¼k, akkor Ãºj kosarat nyitunk Ã©s esetlegesen 
+ Ã¡tpakoljuk a szÃ¼ksÃ©ges rekordokat az Ãºj kosÃ¡rba.
+Ha n nagyobb lesz 2**i-nÃ©l nÃ¶veljÃ¼k i-t 1-gyel (0-Ã¡t Ã­runk a kosÃ¡rindexek elÃ©).
 
 
 
 
-ROWID adattípus formátuma és jelentése (lásd még DBMS_ROWID package)
+ROWID adattÃ­pus formÃ¡tuma Ã©s jelentÃ©se (lÃ¡sd mÃ©g DBMS_ROWID package)
 --------------------------------------------------------------------
 
 18 karakteren irodik ki, a kovetkezo formaban: OOOOOOFFFBBBBBBRRR
-OOOOOO -  az objektum azonositoja (egészen pontosan az úgynevezett adatobjektum azonosítója)
+OOOOOO -  az objektum azonositoja (egÃ©szen pontosan az Ãºgynevezett adatobjektum azonosÃ­tÃ³ja)
 FFF    -  fajl azonositoja (tablateren beluli relativ sorszam)
 BBBBBB -  blokk azonosito (a fajlon beluli sorszam)
 RRR    -  sor azonosito (a blokkon beluli sorszam)
 
 A ROWID megjeleniteskor 64-es alapu kodolasban jelenik meg (Base64). 
-Az egyes szamoknak (0-63) a következo karakterek felelnek meg:
+Az egyes szamoknak (0-63) a kÃ¶vetkezo karakterek felelnek meg:
 A-Z -> (0-25), a-z -> (26-51), 0-9 -> (52-61), '+' -> (62), '/' -> (63)
 
 Pl. 'AAAAAB' -> 000001
 
 
-A NIKOVITS felhasználó CIKK táblája hány blokkot foglal le az adatbázisban? (ARAMIS)
-(Vagyis hány olyan blokk van, ami ehhez a táblához van rendelve és így
-azok már más táblákhoz nem adhatók hozzá?)
+A NIKOVITS felhasznÃ¡lÃ³ CIKK tÃ¡blÃ¡ja hÃ¡ny blokkot foglal le az adatbÃ¡zisban? (ARAMIS)
+(Vagyis hÃ¡ny olyan blokk van, ami ehhez a tÃ¡blÃ¡hoz van rendelve Ã©s Ã­gy
+azok mÃ¡r mÃ¡s tÃ¡blÃ¡khoz nem adhatÃ³k hozzÃ¡?)
 
-A NIKOVITS felhasználó CIKK táblájának adatai hány blokkban helyezkednek el?
-(Vagyis a tábla sorai ténylegesen hány blokkban vannak tárolva?)
-!!! -> Ez a kérdés nem ugyanaz mint az elõzõ.
+A NIKOVITS felhasznÃ¡lÃ³ CIKK tÃ¡blÃ¡jÃ¡nak adatai hÃ¡ny blokkban helyezkednek el?
+(Vagyis a tÃ¡bla sorai tÃ©nylegesen hÃ¡ny blokkban vannak tÃ¡rolva?)
+!!! -> Ez a kÃ©rdÃ©s nem ugyanaz mint az elÅ‘zÅ‘.
 
-Az egyes blokkokban hány sor van?
-
-
-Hozzunk létre egy táblát az EXAMPLE táblatéren, amelynek szerkezete azonos a nikovits.cikk 
-tábláéval és pontosan 128 KB helyet foglal az adatbázisban. Foglaljunk le manuálisan további 
-128 KB helyet a táblához. Vigyünk fel sorokat addig, amig az elsõ blokk tele nem 
-lesz, és 1 további sora lesz még a táblának a második blokkban.
-(A felvitelt plsql programmal végezzük és ne kézzel, mert úgy kicsit sokáig tartana.)
+Az egyes blokkokban hÃ¡ny sor van?
 
 
-Próbáljuk ki az elõzõt ismét, de most a PCTFREE értéket állítsuk 40-re. 
-Mindkét esetben ellenõrizzük is, hogy a sorok tényleg két blokkban vannak,
-és a másodikban csak egyetlen sor van.
+Hozzunk lÃ©tre egy tÃ¡blÃ¡t az EXAMPLE tÃ¡blatÃ©ren, amelynek szerkezete azonos a nikovits.cikk 
+tÃ¡blÃ¡Ã©val Ã©s pontosan 128 KB helyet foglal az adatbÃ¡zisban. Foglaljunk le manuÃ¡lisan tovÃ¡bbi 
+128 KB helyet a tÃ¡blÃ¡hoz. VigyÃ¼nk fel sorokat addig, amig az elsÅ‘ blokk tele nem 
+lesz, Ã©s 1 tovÃ¡bbi sora lesz mÃ©g a tÃ¡blÃ¡nak a mÃ¡sodik blokkban.
+(A felvitelt plsql programmal vÃ©gezzÃ¼k Ã©s ne kÃ©zzel, mert Ãºgy kicsit sokÃ¡ig tartana.)
 
 
-Állapítsuk meg, hogy a SH.SALES táblának a következõ adatokkal azonosított sora
-(time_id='1998.01.10', prod_id=13, cust_id=2380) melyik adatfájlban van,
-azon belül melyik blokkban, és a blokkon belül hányadik a sor?
+PrÃ³bÃ¡ljuk ki az elÅ‘zÅ‘t ismÃ©t, de most a PCTFREE Ã©rtÃ©ket Ã¡llÃ­tsuk 40-re. 
+MindkÃ©t esetben ellenÅ‘rizzÃ¼k is, hogy a sorok tÃ©nyleg kÃ©t blokkban vannak,
+Ã©s a mÃ¡sodikban csak egyetlen sor van.
 
-Az elõzõ feladatban megadott sor melyik partícióban van?
-Mennyi az objektum azonosítója, és ez milyen objektum?
 
-Írjunk meg egy PLSQL procedúrát, amelyik kiírja, hogy a NIKOVITS.TABLA_123 táblának melyik 
-adatblokkjában hány sor van. (file_id, blokk_id, darab)
+ÃllapÃ­tsuk meg, hogy a SH.SALES tÃ¡blÃ¡nak a kÃ¶vetkezÅ‘ adatokkal azonosÃ­tott sora
+(time_id='1998.01.10', prod_id=13, cust_id=2380) melyik adatfÃ¡jlban van,
+azon belÃ¼l melyik blokkban, Ã©s a blokkon belÃ¼l hÃ¡nyadik a sor?
+
+Az elÅ‘zÅ‘ feladatban megadott sor melyik partÃ­ciÃ³ban van?
+Mennyi az objektum azonosÃ­tÃ³ja, Ã©s ez milyen objektum?
+
+Ãrjunk meg egy PLSQL procedÃºrÃ¡t, amelyik kiÃ­rja, hogy a NIKOVITS.TABLA_123 tÃ¡blÃ¡nak melyik 
+adatblokkjÃ¡ban hÃ¡ny sor van. (file_id, blokk_id, darab)
 CREATE OR REPLACE PROCEDURE num_of_rows IS 
 ...
 SET SERVEROUTPUT ON
 EXECUTE num_of_rows();
 
-HÁZI FELADAT (kicsit több idõt igényel, mint a gyakorlaton megoldottak)
+HÃZI FELADAT (kicsit tÃ¶bb idÅ‘t igÃ©nyel, mint a gyakorlaton megoldottak)
 ------------
 Irjunk meg egy PL/SQL fuggvenyt, ami a  ROWID 64-es kodolasanak megfelelo
 szamot adja vissza. A fuggveny parametere egy karakterlanc, eredmenye 
@@ -135,7 +135,7 @@ elhelyezkedeset. (Melyik fajl, melyik blokk, melyik sora) Peldaul az
 ORAUSER.DOLGOZO tabla azon sorara, ahol a dolgozo neve 'KING'.
 
 
-További példák a ROWID használatára
+TovÃ¡bbi pÃ©ldÃ¡k a ROWID hasznÃ¡latÃ¡ra
 -----------------------------------
 
 Hozzunk letre egy EXCEPTIONS nevu tablat az utlexcpt.sql nevu script 
@@ -144,7 +144,7 @@ kozul nehany megsert. (Emiatt a constraint letrehozasa hibauzenetet
 kell, hogy eredmenyezzen.) Allapitsuk meg az EXCEPTIONS nevu tabla 
 segitsegevel, hogy mely sorok sertik meg az imenti constraintet. 
 
-Az utlexcpt.sql nevû script a következõ utasítást tartalmazza:
+Az utlexcpt.sql nevÅ± script a kÃ¶vetkezÅ‘ utasÃ­tÃ¡st tartalmazza:
 
 CREATE TABLE exceptions(row_id rowid, owner varchar2(30),
     table_name varchar2(30), constraint varchar2(30));
