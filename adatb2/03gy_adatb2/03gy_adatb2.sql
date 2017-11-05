@@ -113,3 +113,79 @@ ORDER BY 1;
 
 --Tábla kitörlése
 DROP TABLE husi;
+
+
+-- HÁZI FELADAT (kicsit több időt igényel, mint a gyakORlaton megoldottak)
+-- ------------
+-- Irjunk meg egy PL/SQL fuggvenyt, ami a  ROWID 64-es kodolasanak megfelelo
+-- szamot adja vissza. A fuggveny parametere egy karakterlanc, eredmenye 
+-- pedig a kodolt numerikus ertek legyen. (Eleg ha a fuggveny maximum 6 
+-- hosszu, helyesen kodolt karakterlancokra mukodik, hosszabb karakterlancra,
+-- vagy rosszul kodolt parameterre adjon vissza -1-et.)
+-- Ennek a fv-nek a segitsegevel adjuk meg egy tablabeli sor pontos fizikai 
+-- elhelyezkedeset. (Melyik fajl, melyik blokk, melyik sora) Peldaul az
+-- ORAUSER.DOLGOZO tabla azon sorara, ahol a dolgozo neve 'KING'.
+
+-- Nem biztos hogy ez volt a feladat.
+CREATE FUNCTION base64_char_to_dec(ch VARCHAR2) RETURN NUMBER IS
+  c NUMBER := ascii(ch);
+  error_code NUMBER := 0;
+BEGIN
+  IF    ascii('A') <= c AND c <= ascii('Z') THEN
+    RETURN c - ascii('A');
+  ELSIF ascii('a') <= c AND c <= ascii('z') THEN
+    RETURN c - ascii('a') + 26;
+  ELSIF ascii('0') <= c AND c <= ascii('9') THEN
+    RETURN c - ascii('0') + 52;
+  ELSIF ascii('+') = c THEN
+    RETURN 62;
+  ELSIF ascii('/') = c THEN
+    RETURN 63;
+  END IF;
+  RETURN error_code;
+END;
+/
+
+CREATE FUNCTION base64_string_to_dec(base64str VARCHAR2) RETURN NUMBER IS
+  summ NUMBER := 0;
+  str VARCHAR2(100) := base64str;
+  ch VARCHAR2(1);
+  ch_value NUMBER;
+BEGIN
+  LOOP
+    EXIT WHEN str IS NULL;
+    ch := substr(str, 1, 1);
+    ch_value := base64_char_to_dec(ch);
+    str := substr(str, 2);
+    summ := summ + ch_value;
+    IF str IS NOT NULL THEN
+      summ := summ * 64;
+    END IF;
+  END LOOP;
+  RETURN summ;
+END;
+/
+
+CREATE OR replace PROCEDURE rowid_to_parts(rowidStr VARCHAR2) IS
+  obj_id   NUMBER;
+  file_id  NUMBER;
+  block_id NUMBER;
+  row_id   NUMBER;
+BEGIN
+  SELECT base64_string_to_dec(substr(rowidStr, 1, 6)),
+         base64_string_to_dec(substr(rowidStr, 7, 3)),
+         base64_string_to_dec(substr(rowidStr, 10, 6)),
+         base64_string_to_dec(substr(rowidStr, 16, 3))
+  INTO obj_id, file_id, block_id, row_id
+  FROM dual;
+  
+  dbms_output.put_line('obj_id: '   || obj_id   ||
+                     ', file_id: '  || file_id  ||
+                     ', block_id: ' || block_id ||
+                     ', row_id: '   || row_id);
+END;
+/
+
+SET SERVEROUTPUT ON
+EXECUTE rowid_to_parts('AAASOwAAEAAAAIUAAW');
+-- results: obj_id: 74672, file_id: 4, block_id: 532, row_id: 22, which is correct
