@@ -22,16 +22,16 @@ Pl. 'AAAAAB' -> 000001
 
 SELECT * FROM nikovits.cikk;
 
-SELECT rownum, nikovits.cikk.* 
+SELECT ROWNUM, nikovits.cikk.* 
 FROM nikovits.cikk;
 
-SELECT rowid, nikovits.cikk.* 
+SELECT ROWID, nikovits.cikk.* 
 FROM nikovits.cikk;
 
 ---=== 2. feladat ===---
 /*
-A NIKOVITS felhasználó CIKK táblája hány blokkot foglal le az adatbázisban? (ARAMIS)
-(Vagyis hány olyan blokk van, ami ehhez a táblához van rendelve és így
+A NIKOVITS felhasználó CIKK táblája hány blokkot foglal le az adatbázISban? (ARAMIS)
+(VagyIS hány olyan blokk van, ami ehhez a táblához van rENDelve és így
 azok már más táblákhoz nem adhatók hozzá?)
 */
 
@@ -48,7 +48,7 @@ WHERE owner = 'NIKOVITS' AND table_name = 'CIKK';
 ---=== 3. feladat ===---
 /*
 A NIKOVITS felhasználó CIKK táblájának adatai hány blokkban helyezkednek el?
-(Vagyis a tábla sorai ténylegesen hány blokkban vannak tárolva?)
+(VagyIS a tábla sorai ténylegesen hány blokkban vannak tárolva?)
 !!! -> Ez a kérdés nem ugyanaz mint az előző.
 */
 
@@ -67,7 +67,7 @@ ORDER BY 1;
 ---=== 5. feladat ===---
 /*
 Hozzunk létre egy táblát az EXAMPLE táblatéren, amelynek szerkezete azonos a nikovits.cikk 
-tábláéval és pontosan 128 KB helyet foglal az adatbázisban. Foglaljunk le manuálisan további 
+tábláéval és pontosan 128 KB helyet foglal az adatbázISban. Foglaljunk le manuálISan további 
 128 KB helyet a táblához. Vigyünk fel sorokat addig, amig az első blokk tele nem 
 lesz, és 1 további sora lesz még a táblának a második blokkban.
 (A felvitelt plsql programmal végezzük és ne kézzel, mert úgy kicsit sokáig tartana.)
@@ -95,7 +95,7 @@ BEGIN
         FROM nikovits.cikk 
         WHERE i = ROWNUM; --Mindig más sort adjunk hozzá
         
-        SELECT count(DISTINCT substr(rowid,1,15))
+        SELECT count(DISTINCT substr(ROWID,1,15))
         INTO block_count 
         FROM husi;
         
@@ -113,3 +113,29 @@ ORDER BY 1;
 
 --Tábla kitörlése
 DROP TABLE husi;
+
+---=== 6. feladat ===---
+/*
+Állapítsuk meg, hogy a SH.SALES táblának a következő adatokkal azonosított sora
+(time_id='1998.01.10', prod_id=13, cust_id=2380) melyik adatfájlban van,
+azon belül melyik blokkban, és a blokkon belül hányadik a sor?
+*/
+
+--Melyik fájl
+SELECT file_name
+FROM dba_data_files
+WHERE file_id = ANY (
+    SELECT base64_string_to_dec(substr(ROWID, 7, 3))
+    FROM SH.SALES
+    WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id = 2380
+);
+
+--Azon belül melyik blokk
+SELECT base64_string_to_dec(substr(ROWID, 10, 6))
+FROM SH.SALES
+WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id = 2380;
+
+--Azon belül hanyadik sor
+SELECT base64_string_to_dec(substr(ROWID, 16, 3))
+FROM SH.SALES
+WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id = 2380;
