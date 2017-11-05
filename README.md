@@ -6,6 +6,7 @@ Pár konvenció a repo-hoz:
 * Amennyiben egy feladat megoldása nem jó vagy nem biztos hogy jó, az legyen jól láthatóan felűntetve!
 * Halmazműveletek esetén legyenek jól elkülíthetőek a lekérdezések!
 * Hosszabb lekérdezések esetén több sorba legyen tördeljünk!
+* A kulcsszavak nagybetűvel legyenek írva!
 
 NEM OK:
 ```SQL
