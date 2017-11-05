@@ -121,6 +121,8 @@ DROP TABLE husi;
 azon belül melyik blokkban, és a blokkon belül hányadik a sor?
 */
 
+--A megoldásban használt base64_string_to_dec függvény a házi feladatban van implementálva lentebb.
+
 --Melyik fájl
 SELECT file_name
 FROM dba_data_files
@@ -139,6 +141,45 @@ WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id
 SELECT base64_string_to_dec(substr(ROWID, 16, 3))
 FROM SH.SALES
 WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id = 2380;
+
+---=== 7. feladat ===---
+--Az előző feladatban megadott sor melyik partícióban van?
+--Mennyi az objektum azonosítója, és ez milyen objektum?
+
+SELECT partition_name
+FROM (
+    SELECT *
+    FROM dba_extents
+    WHERE owner = 'SH' AND segment_name = 'SALES' AND block_id <= ANY (
+        SELECT base64_string_to_dec(substr(ROWID, 10, 6))
+        FROM SH.SALES
+        WHERE time_id = to_date('1998.01.10', 'yyyy.mm.dd') AND prod_id = 13 AND cust_id = 2380
+    )
+    ORDER BY block_id DESC
+)
+WHERE ROWNUM = 1;
+
+---=== 8. feladat ===---
+--Írjunk meg egy PLSQL procedúrát, amelyik kiírja, hogy a NIKOVITS.TABLA_123 táblának melyik 
+--adatblokkjában hány sor van. (file_id, blokk_id, darab)
+
+CREATE OR REPLACE PROCEDURE num_of_rows IS 
+    file_name VARCHAR2(300);
+    block_id VARCHAR2(300);
+BEGIN
+    FOR row IN (
+        SELECT substr(ROWID, 1, 15) AS rowid_1_15, count(*) AS count
+        FROM nikovits.tabla_123
+        GROUP BY substr(ROWID, 1, 15)
+    ) LOOP
+        dbms_output.put_line('file_id: ' ||rpad(base64_string_to_dec(substr(row.rowid_1_15,  7, 3)),  3)||
+                            ' blokk_id: '||rpad(base64_string_to_dec(substr(row.rowid_1_15, 10, 6)), 10)||
+                            ' darab: '   ||row.count);
+    END LOOP;
+END;
+/
+SET SERVEROUTPUT ON
+EXECUTE num_of_rows();
 
 /*************************************************/
 /**************     Házi feladat      ************/
