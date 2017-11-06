@@ -242,9 +242,9 @@ CREATE OR replace PROCEDURE rowid_to_parts(rowidStr VARCHAR2) IS
     row_id   NUMBER;
 BEGIN
     SELECT base64_string_to_dec(substr(rowidStr, 1, 6)),
-         base64_string_to_dec(substr(rowidStr, 7, 3)),
-         base64_string_to_dec(substr(rowidStr, 10, 6)),
-         base64_string_to_dec(substr(rowidStr, 16, 3))
+           base64_string_to_dec(substr(rowidStr, 7, 3)),
+           base64_string_to_dec(substr(rowidStr, 10, 6)),
+           base64_string_to_dec(substr(rowidStr, 16, 3))
     INTO obj_id, file_id, block_id, row_id
     FROM dual;
   

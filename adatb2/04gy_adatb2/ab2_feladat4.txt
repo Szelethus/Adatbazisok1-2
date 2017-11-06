@@ -1,27 +1,27 @@
 B+ fa index
 -----------
-Az alábbi feladatban a tankönyben leírt és az elõadáson is bemutatott algoritmussal 
-építsünk fel egy B+ fát!
+Az alÃ¡bbi feladatban a tankÃ¶nyben leÃ­rt Ã©s az elÅ‘adÃ¡son is bemutatott algoritmussal 
+Ã©pÃ­tsÃ¼nk fel egy B+ fÃ¡t!
 
-Tegyük fel, hogy egy B+ fa blokkjaiba 3 kulcs fér el plusz 4 mutató. A kulcsok 
-különbözõek. Szúrjuk be a B+ fába az alábbi kulcsértékeket a megadott sorrendben:
+TegyÃ¼k fel, hogy egy B+ fa blokkjaiba 3 kulcs fÃ©r el plusz 4 mutatÃ³. A kulcsok 
+kÃ¼lÃ¶nbÃ¶zÅ‘ek. SzÃºrjuk be a B+ fÃ¡ba az alÃ¡bbi kulcsÃ©rtÃ©keket a megadott sorrendben:
 39,15,50,70,79,83,72,43,75,45
-Adjuk meg a B+ fa minden olyan állapotát, amikor egy csomópont kettéosztására volt szükség.
-Például, az elsõ kettéosztás utáni állapot:
+Adjuk meg a B+ fa minden olyan Ã¡llapotÃ¡t, amikor egy csomÃ³pont kettÃ©osztÃ¡sÃ¡ra volt szÃ¼ksÃ©g.
+PÃ©ldÃ¡ul, az elsÅ‘ kettÃ©osztÃ¡s utÃ¡ni Ã¡llapot:
                           50
                     15|39    50|70
 
-Egy kis segítség:
+Egy kis segÃ­tsÃ©g:
 ----------------
 
-Levél csúcs kettéosztásakor minden kulcsot megõrzünk a régi és az új (szomszédos) csúcsban.
-1 új kulcs-mutató párt küldünk felfelé a szülõ csúcsba, amit ott kell elhelyezni.
+LevÃ©l csÃºcs kettÃ©osztÃ¡sakor minden kulcsot megÅ‘rzÃ¼nk a rÃ©gi Ã©s az Ãºj (szomszÃ©dos) csÃºcsban.
+1 Ãºj kulcs-mutatÃ³ pÃ¡rt kÃ¼ldÃ¼nk felfelÃ© a szÃ¼lÅ‘ csÃºcsba, amit ott kell elhelyezni.
 
-Belsõ csúcs kettéosztásakor (N,M csúcsra) a mutatók elsõ fele az N-be kerül, a második az M-be.
-A kulcsok elsõ fele az N-be kerül a második fele az M-be, de középen kimarad egy kulcs,
-ami az M-en keresztül (elsõ gyermekén keresztül) elérhetõ legkisebb kulcsot tartalmazza. 
-Ez nem kerül sem N-be, sem M-be, hanem ez megy fölfelé N és M közös szülõjébe az M-re mutató
-mutatóval együtt.
+BelsÅ‘ csÃºcs kettÃ©osztÃ¡sakor (N,M csÃºcsra) a mutatÃ³k elsÅ‘ fele az N-be kerÃ¼l, a mÃ¡sodik az M-be.
+A kulcsok elsÅ‘ fele az N-be kerÃ¼l a mÃ¡sodik fele az M-be, de kÃ¶zÃ©pen kimarad egy kulcs,
+ami az M-en keresztÃ¼l (elsÅ‘ gyermekÃ©n keresztÃ¼l) elÃ©rhetÅ‘ legkisebb kulcsot tartalmazza. 
+Ez nem kerÃ¼l sem N-be, sem M-be, hanem ez megy fÃ¶lfelÃ© N Ã©s M kÃ¶zÃ¶s szÃ¼lÅ‘jÃ©be az M-re mutatÃ³
+mutatÃ³val egyÃ¼tt.
 
 
 Bitmap index
@@ -45,23 +45,23 @@ DKOD DNEV   FIZETES  FOGLALKOZAS  BELEPES  OAZON
 14   MILLER   1300   CLERK        1982     10	 
 
 
-Készítsen bitmap indexet a dolgozó tábla OAZON oszlopára és adja meg a bitvektorokat.
+KÃ©szÃ­tsen bitmap indexet a dolgozÃ³ tÃ¡bla OAZON oszlopÃ¡ra Ã©s adja meg a bitvektorokat.
 
-Tegyük fel, hogy a FOGLALKOZAS, a BELEPES és az OAZON oszlopokra létezik bitmap index (3 index).
-Készítsük el az alábbi lekérdezésekhez szükséges bitvektorokat, majd végezzük el rajtuk a szükséges 
-mûveleteket, és adjuk meg azt az elõállt bitvektort, ami alapján a végeredmény sorok megkaphatók.
-Ellenõrzésképpen adjuk meg a lekérdezést SQL-ben is.
+TegyÃ¼k fel, hogy a FOGLALKOZAS, a BELEPES Ã©s az OAZON oszlopokra lÃ©tezik bitmap index (3 index).
+KÃ©szÃ­tsÃ¼k el az alÃ¡bbi lekÃ©rdezÃ©sekhez szÃ¼ksÃ©ges bitvektorokat, majd vÃ©gezzÃ¼k el rajtuk a szÃ¼ksÃ©ges 
+mÅ±veleteket, Ã©s adjuk meg azt az elÅ‘Ã¡llt bitvektort, ami alapjÃ¡n a vÃ©geredmÃ©ny sorok megkaphatÃ³k.
+EllenÅ‘rzÃ©skÃ©ppen adjuk meg a lekÃ©rdezÃ©st SQL-ben is.
  
-- Adjuk meg azoknak a dolgozóknak a nevét, akik 1981-ben léptek be és a foglalkozásuk hivatalnok (CLERK),
-  vagy a 20-as osztályon dolgoznak és a foglalkozásuk MANAGER.
+- Adjuk meg azoknak a dolgozÃ³knak a nevÃ©t, akik 1981-ben lÃ©ptek be Ã©s a foglalkozÃ¡suk hivatalnok (CLERK),
+  vagy a 20-as osztÃ¡lyon dolgoznak Ã©s a foglalkozÃ¡suk MANAGER.
 
-- Adjuk meg azoknak a dolgozóknak a nevét, akik nem 1981-ben léptek be és a 10-es vagy a 30-as 
-  osztályon dolgoznak.
+- Adjuk meg azoknak a dolgozÃ³knak a nevÃ©t, akik nem 1981-ben lÃ©ptek be Ã©s a 10-es vagy a 30-as 
+  osztÃ¡lyon dolgoznak.
 
-Tömörítse a következõ bitvektort a szakaszhossz kódolással. (lásd UW_szakaszhossz_kodolas.doc)
+TÃ¶mÃ¶rÃ­tse a kÃ¶vetkezÅ‘ bitvektort a szakaszhossz kÃ³dolÃ¡ssal. (lÃ¡sd UW_szakaszhossz_kodolas.doc)
 0000000000000000000000010000000101
 
-Fejtsük vissza a következõ, szakaszhossz kódolással tömörített bitvektort:
+FejtsÃ¼k vissza a kÃ¶vetkezÅ‘, szakaszhossz kÃ³dolÃ¡ssal tÃ¶mÃ¶rÃ­tett bitvektort:
 1111010101001011
 
 
@@ -70,58 +70,58 @@ Oracle indexek
 --------------
 (DBA_INDEXES, DBA_IND_COLUMNS, DBA_IND_EXPRESSIONS)
 
-Hozzunk létre egy vagy több táblához több különbözõ indexet, legyen köztük több oszlopos,
-csökkenõ sorrendû, bitmap, függvény alapú stb. (Ehhez használhatók az ab2_oracle.doc
-állományban szereplõ példák, vagy a cr_index.txt-ben szereplõk.)
-Az alábbi lekérdezésekkel megállapítjuk az iménti indexeknek mindenféle tulajdonságait a 
-katalógusokból.
+Hozzunk lÃ©tre egy vagy tÃ¶bb tÃ¡blÃ¡hoz tÃ¶bb kÃ¼lÃ¶nbÃ¶zÅ‘ indexet, legyen kÃ¶ztÃ¼k tÃ¶bb oszlopos,
+csÃ¶kkenÅ‘ sorrendÅ±, bitmap, fÃ¼ggvÃ©ny alapÃº stb. (Ehhez hasznÃ¡lhatÃ³k az ab2_oracle.doc
+Ã¡llomÃ¡nyban szereplÅ‘ pÃ©ldÃ¡k, vagy a cr_index.txt-ben szereplÅ‘k.)
+Az alÃ¡bbi lekÃ©rdezÃ©sekkel megÃ¡llapÃ­tjuk az imÃ©nti indexeknek mindenfÃ©le tulajdonsÃ¡gait a 
+katalÃ³gusokbÃ³l.
 
-Adjuk meg azoknak a tábláknak a nevét, amelyeknek van csökkenõ sorrendben indexelt oszlopa.
+Adjuk meg azoknak a tÃ¡blÃ¡knak a nevÃ©t, amelyeknek van csÃ¶kkenÅ‘ sorrendben indexelt oszlopa.
 
-Miért ilyen furcsa az oszlopnév?
--> lásd DBA_IND_EXPRESSIONS
+MiÃ©rt ilyen furcsa az oszlopnÃ©v?
+-> lÃ¡sd DBA_IND_EXPRESSIONS
 
-Adjuk meg azoknak az indexeknek a nevét, amelyek legalább 9 oszloposak.
-(Vagyis a táblának legalább 9 oszlopát vagy egyéb kifejezését indexelik.)
+Adjuk meg azoknak az indexeknek a nevÃ©t, amelyek legalÃ¡bb 9 oszloposak.
+(Vagyis a tÃ¡blÃ¡nak legalÃ¡bb 9 oszlopÃ¡t vagy egyÃ©b kifejezÃ©sÃ©t indexelik.)
 
-Adjuk meg az SH.SALES táblára létrehozott bitmap indexek nevét.
+Adjuk meg az SH.SALES tÃ¡blÃ¡ra lÃ©trehozott bitmap indexek nevÃ©t.
 
-Adjuk meg azon kétoszlopos indexek nevét és tulajdonosát, amelyeknek legalább 
-az egyik kifejezése függvény alapú .
+Adjuk meg azon kÃ©toszlopos indexek nevÃ©t Ã©s tulajdonosÃ¡t, amelyeknek legalÃ¡bb 
+az egyik kifejezÃ©se fÃ¼ggvÃ©ny alapÃº .
 
-Adjuk meg az egyikükre, pl. az OE tulajdonában lévõre, hogy milyen kifejezések szerint 
-vannak indexelve a soraik. (Vagyis mi a függveny, ami alapján a bejegyzések készülnek.)
+Adjuk meg az egyikÃ¼kre, pl. az OE tulajdonÃ¡ban lÃ©vÅ‘re, hogy milyen kifejezÃ©sek szerint 
+vannak indexelve a soraik. (Vagyis mi a fÃ¼ggveny, ami alapjÃ¡n a bejegyzÃ©sek kÃ©szÃ¼lnek.)
 
-Adjuk meg a NIKOVITS felhasználó tulajdonában levõ index-szervezett táblák nevét.
-(Melyik táblatéren vannak ezek a táblák? -> miért nem látható?)
+Adjuk meg a NIKOVITS felhasznÃ¡lÃ³ tulajdonÃ¡ban levÅ‘ index-szervezett tÃ¡blÃ¡k nevÃ©t.
+(Melyik tÃ¡blatÃ©ren vannak ezek a tÃ¡blÃ¡k? -> miÃ©rt nem lÃ¡thatÃ³?)
 
-Adjuk meg a fenti táblák index részét, és azt, hogy ezek az index részek (szegmensek) 
-melyik táblatéren vannak?
+Adjuk meg a fenti tÃ¡blÃ¡k index rÃ©szÃ©t, Ã©s azt, hogy ezek az index rÃ©szek (szegmensek) 
+melyik tÃ¡blatÃ©ren vannak?
 
-Keressük meg a szegmensek között az elõzõ táblákat illetve indexeket, és adjuk
-meg a méretüket.
+KeressÃ¼k meg a szegmensek kÃ¶zÃ¶tt az elÅ‘zÅ‘ tÃ¡blÃ¡kat illetve indexeket, Ã©s adjuk
+meg a mÃ©retÃ¼ket.
 
-Keressük meg az adatbázis objektumok között a fenti táblákat és indexeket, és adjuk
-meg az objektum azonosítójukat és adatobjektum azonosítójukat (DATA_OBJECT_ID).
+KeressÃ¼k meg az adatbÃ¡zis objektumok kÃ¶zÃ¶tt a fenti tÃ¡blÃ¡kat Ã©s indexeket, Ã©s adjuk
+meg az objektum azonosÃ­tÃ³jukat Ã©s adatobjektum azonosÃ­tÃ³jukat (DATA_OBJECT_ID).
 
-Adjuk meg a fenti táblák túlcsordulási részeit (ha van).
+Adjuk meg a fenti tÃ¡blÃ¡k tÃºlcsordulÃ¡si rÃ©szeit (ha van).
 
-Keressük meg a túlcsordulási részeket a szegmensek között és adjuk meg a méretüket.
-Keressük meg az objektum azonosítóikat és az adatobjektum azonosítóikat is.
+KeressÃ¼k meg a tÃºlcsordulÃ¡si rÃ©szeket a szegmensek kÃ¶zÃ¶tt Ã©s adjuk meg a mÃ©retÃ¼ket.
+KeressÃ¼k meg az objektum azonosÃ­tÃ³ikat Ã©s az adatobjektum azonosÃ­tÃ³ikat is.
 
 -----------------------------------------------------------------------
-Írjunk meg egy plsql procedúrát, amelyik a paraméterül kapott index szervezett 
-tábláról kiírja a tábla méretét. 
-Vigyázzunk, mert a táblának lehet index és túlcsordulási szegmense is!
+Ãrjunk meg egy plsql procedÃºrÃ¡t, amelyik a paramÃ©terÃ¼l kapott index szervezett 
+tÃ¡blÃ¡rÃ³l kiÃ­rja a tÃ¡bla mÃ©retÃ©t. 
+VigyÃ¡zzunk, mert a tÃ¡blÃ¡nak lehet index Ã©s tÃºlcsordulÃ¡si szegmense is!
 CREATE OR REPLACE PROCEDURE iot_size(p_owner VARCHAR2, p_table VARCHAR2) IS 
 ...
 SET SERVEROUTPUT ON
 EXECUTE iot_size('nikovits', 'cikk_iot');
 -----------------------------------------------------------------------
 
-Adjuk meg azokat az index szervezett táblákat, amelyeknek pontosan 
-1 dátum típusú oszlopa van.
+Adjuk meg azokat az index szervezett tÃ¡blÃ¡kat, amelyeknek pontosan 
+1 dÃ¡tum tÃ­pusÃº oszlopa van.
 
-Adjuk meg, hogy mennyi a blokkolási faktora a következõ tábláknak: NIKOVITS.CIKK, SH.CUSTOMERS
-Az üres blokkokat ne vegyük figyelembe, tehát a blokkolási faktor (a blokkban lévõ sorok átlagos száma) 
-most a sorok_száma/nemüres_blokkok_száma.
+Adjuk meg, hogy mennyi a blokkolÃ¡si faktora a kÃ¶vetkezÅ‘ tÃ¡blÃ¡knak: NIKOVITS.CIKK, SH.CUSTOMERS
+Az Ã¼res blokkokat ne vegyÃ¼k figyelembe, tehÃ¡t a blokkolÃ¡si faktor (a blokkban lÃ©vÅ‘ sorok Ã¡tlagos szÃ¡ma) 
+most a sorok_szÃ¡ma/nemÃ¼res_blokkok_szÃ¡ma.
