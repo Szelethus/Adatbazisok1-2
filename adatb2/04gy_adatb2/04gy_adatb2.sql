@@ -68,3 +68,88 @@ WHERE table_owner = 'PW9YIK' AND table_name = 'HUSI';
 
 DROP TABLE husi;
 
+---=== 2. feladat ===---
+-- Adjuk meg azoknak a tábláknak a nevét, amelyeknek van csökkenő sorrendben indexelt oszlopa.
+
+SELECT table_name
+FROM dba_ind_columns
+WHERE descend = 'DESC';
+
+---=== 3. feladat ===---
+--Miért ilyen furcsa az oszlopnév?
+--> lásd DBA_IND_EXPRESSIONS
+
+-- what?
+
+---=== 4. feladat ===---
+--Adjuk meg azoknak az indexeknek a nevét, amelyek legalább 9 oszloposak.
+--(Vagyis a táblának legalább 9 oszlopát vagy egyéb kifejezését indexelik.)
+
+SELECT table_owner, table_name, count(*)
+FROM dba_ind_columns
+GROUP BY table_owner, table_name
+HAVING count(*) >= 9;
+
+---=== 5. feladat ===---
+--Adjuk meg az SH.SALES táblára létrehozott bitmap indexek nevét.
+
+SELECT index_name
+FROM dba_indexes
+WHERE table_owner = 'SH' AND table_name = 'SALES' AND index_type = 'BITMAP';
+
+---=== 6. feladat ===---
+--Adjuk meg azon kétoszlopos indexek nevét és tulajdonosát, amelyeknek legalább 
+--az egyik kifejezése függvény alapú.
+(
+    -- kétoszlopú indexek
+    SELECT index_owner, table_name, index_name
+    FROM dba_ind_columns
+    GROUP BY index_owner, table_name, index_name
+    HAVING count(column_name) = 2
+)
+MINUS
+(
+    -- nem függvény alapú indexek
+    SELECT owner AS index_owner, table_name, index_name
+    FROM dba_indexes
+    WHERE index_type NOT LIKE 'FUNCTION-BASED%'
+);
+
+---=== 7. feladat ===---
+--Adjuk meg az egyikükre, pl. az OE tulajdonában lévőre, hogy milyen kifejezések szerint 
+--vannak indexelve a soraik. (Vagyis mi a függveny, ami alapján a bejegyzések készülnek.)
+
+SELECT column_expression
+FROM (
+    -- Előző feladatból
+    (
+        -- kétoszlopú indexek
+        SELECT index_owner, table_name, index_name
+        FROM dba_ind_columns
+        GROUP BY index_owner, table_name, index_name
+        HAVING count(column_name) = 2
+    )
+    MINUS
+    (
+        -- nem függvény alapú indexek
+        SELECT owner AS index_owner, table_name, index_name
+        FROM dba_indexes
+        WHERE index_type NOT LIKE 'FUNCTION-BASED%'
+    )
+) NATURAL JOIN dba_ind_expressions
+WHERE table_owner = 'OE';
+
+---=== 8. feladat ===---
+-- Adjuk meg a NIKOVITS felhasználó tulajdonában levő index-szervezett táblák nevét.
+-- (Melyik táblatéren vannak ezek a táblák? -> miért nem látható?)
+
+-- hát ez tuti nem jó megoldás
+SELECT DISTINCT s.segment_name, s.tablespace_name
+FROM dba_indexes i CROSS JOIN dba_segments s
+WHERE i.table_owner = 'NIKOVITS' AND s.owner = i.table_owner AND s.segment_name = i.table_name AND segment_type = 'TABLE';
+
+---=== 9. feladat ===---
+--Adjuk meg a fenti táblák index részét, és azt, hogy ezek az index részek (szegmensek) 
+--melyik táblatéren vannak?
+
+--what?
