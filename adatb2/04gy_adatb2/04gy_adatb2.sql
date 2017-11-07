@@ -143,13 +143,21 @@ WHERE table_owner = 'OE';
 -- Adjuk meg a NIKOVITS felhasználó tulajdonában levő index-szervezett táblák nevét.
 -- (Melyik táblatéren vannak ezek a táblák? -> miért nem látható?)
 
--- hát ez tuti nem jó megoldás
-SELECT DISTINCT s.segment_name, s.tablespace_name
-FROM dba_indexes i CROSS JOIN dba_segments s
-WHERE i.table_owner = 'NIKOVITS' AND s.owner = i.table_owner AND s.segment_name = i.table_name AND segment_type = 'TABLE';
+SELECT table_name, tablespace_name, iot_name
+FROM dba_tables
+WHERE owner = 'NIKOVITS' AND iot_type IS NOT NULL;
 
 ---=== 9. feladat ===---
 --Adjuk meg a fenti táblák index részét, és azt, hogy ezek az index részek (szegmensek) 
 --melyik táblatéren vannak?
 
---what?
+-- Nem jó.
+SELECT DISTINCT ind.segment_name, iot_nikovits.tablespace_name
+FROM dba_segments ind CROSS JOIN (
+    SELECT iot_name, tablespace_name
+    FROM dba_tables
+    WHERE owner = 'NIKOVITS' AND iot_type IS NOT NULL
+) iot_nikovits
+WHERE ind.segment_type = 'INDEX' AND ind.segment_name;
+
+---=== 10. feladat ===---
