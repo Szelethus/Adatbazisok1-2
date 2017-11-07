@@ -145,7 +145,7 @@ WHERE table_owner = 'OE';
 
 SELECT table_name, tablespace_name, iot_name, iot_type
 FROM dba_tables
-WHERE owner = 'NIKOVITS' AND iot_type IS NOT NULL;
+WHERE owner = 'NIKOVITS' AND iot_type = 'IOT';
 
 ---=== 9. feladat ===---
 --Adjuk meg a fenti táblák index részét, és azt, hogy ezek az index részek (szegmensek) 
@@ -153,6 +153,6 @@ WHERE owner = 'NIKOVITS' AND iot_type IS NOT NULL;
 
 SELECT table_name, index_name, index_type, tablespace_name 
 FROM dba_indexes 
-WHERE table_owner='NIKOVITS' AND index_type LIKE '%IOT%TOP%';
+WHERE table_owner='NIKOVITS' AND index_type LIKE '%IOT%';
 
 ---=== 10. feladat ===---
