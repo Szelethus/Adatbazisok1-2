@@ -5,7 +5,7 @@
 /***********************************************************************************/
 
 ---=== 1. feladat ===---
--- meg az SH felhasználó tulajdonában levõ partícionált táblák nevét és a 
+--Adjuk meg az SH felhasználó tulajdonában levõ partícionált táblák nevét és a 
 --particionálás típusát.
 
 SELECT table_name, partitioning_type 
