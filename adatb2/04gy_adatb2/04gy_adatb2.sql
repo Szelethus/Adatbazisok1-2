@@ -158,9 +158,9 @@ WHERE table_owner='NIKOVITS' AND index_type LIKE '%IOT%';
 ---=== 10. feladat ===---
 
 
-SELECT first.table_name
+SELECT DISTINCT first.table_name
 FROM dba_tab_columns first, dba_tab_columns second
-WHERE first.owner = 'NIKOVITS' AND second.owner = first.owner AND 
+WHERE first.owner = 'NIKOVITS' AND second.owner = first.owner  AND first.table_name = second.table_name AND 
         first.column_id = 2 AND second.column_id = 7 AND first.data_type = second.data_type;
         
 CREATE OR REPLACE PROCEDURE zhfeladat IS
