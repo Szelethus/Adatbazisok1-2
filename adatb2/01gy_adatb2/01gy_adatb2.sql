@@ -76,13 +76,13 @@ MINUS
     GROUP BY OWNER
     HAVING count(OBJECT_TYPE) > 40
 )
-INTERSECT
+MINUS
 (
     SELECT OWNER
     FROM DBA_OBJECTS
     WHERE OBJECT_TYPE = 'INDEX'
     GROUP BY OWNER
-    HAVING count(OBJECT_TYPE) <= 37
+    HAVING count(OBJECT_TYPE) > 37
 );
 
 ---=== 10. feladat ===---
