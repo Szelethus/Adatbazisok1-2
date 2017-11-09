@@ -1,38 +1,38 @@
 /*************************************************/
-/************** Adatbázis objektumok *************/
+/************** AdatbÃ¡zis objektumok *************/
 /**************    (DBA_OBJECTS)     *************/
 /*************************************************/
 
 ---=== 1. feladat ===---
---Kinek a tulajdonában van a DBA_TABLES nevû nézet (illetve a DUAL nevû tábla)?
+--Kinek a tulajdonÃ¡ban van a DBA_TABLES nevÅ± nÃ©zet (illetve a DUAL nevÅ± tÃ¡bla)?
 
 SELECT OWNER FROM DBA_VIEWS WHERE VIEW_NAME like 'DBA_TABLES';
 SELECT OWNER FROM DBA_TABLES WHERE TABLE_NAME like 'DUAL';
 
 ---=== 2. feladat ===---
---Kinek a tulajdonában van a DBA_TABLES nevû szinonima (illetve a DUAL nevû)?
---(Az iménti két lekérdezés megmagyarázza, hogy miért tudjuk elérni õket.)
+--Kinek a tulajdonÃ¡ban van a DBA_TABLES nevÅ± szinonima (illetve a DUAL nevÅ±)?
+--(Az imÃ©nti kÃ©t lekÃ©rdezÃ©s megmagyarÃ¡zza, hogy miÃ©rt tudjuk elÃ©rni Å‘ket.)
 
 SELECT OWNER FROM DBA_SYNONYMS WHERE TABLE_NAME like 'DBA_TABLES';
 SELECT OWNER FROM DBA_SYNONYMS WHERE TABLE_NAME like 'DUAL';
 
 ---=== 3. feladat ===---
---Milyen típusú objektumai vannak az orauser nevû felhasználónak az adatbázisban?
+--Milyen tÃ­pusÃº objektumai vannak az orauser nevÅ± felhasznÃ¡lÃ³nak az adatbÃ¡zisban?
 
 SELECT distinct OBJECT_TYPE FROM DBA_OBJECTS WHERE OWNER like 'ORAUSER';
 
 ---=== 4. feladat ===---
---Hány különbözõ típusú objektum van nyilvántartva az adatbázisban?
+--HÃ¡ny kÃ¼lÃ¶nbÃ¶zÅ‘ tÃ­pusÃº objektum van nyilvÃ¡ntartva az adatbÃ¡zisban?
 
 SELECT count(distinct OBJECT_TYPE) FROM DBA_OBJECTS;
 
 ---=== 5. feladat ===---
---Melyek ezek a típusok?
+--Melyek ezek a tÃ­pusok?
 
 SELECT distinct OBJECT_TYPE FROM DBA_OBJECTS;
 
 ---=== 6. feladat ===---
---Kik azok a felhasználók, akiknek több mint 10 féle objektumuk van?
+--Kik azok a felhasznÃ¡lÃ³k, akiknek tÃ¶bb mint 10 fÃ©le objektumuk van?
 
 SELECT OWNER 
 FROM DBA_OBJECTS 
@@ -40,7 +40,7 @@ GROUP BY OWNER
 HAVING count(distinct OBJECT_TYPE) > 10;
 
 ---=== 7. feladat ===---
---Kik azok a felhasználók, akiknek van triggere és nézete is?
+--Kik azok a felhasznÃ¡lÃ³k, akiknek van triggere Ã©s nÃ©zete is?
 
 SELECT OWNER
 FROM DBA_OBJECTS 
@@ -49,7 +49,7 @@ GROUP BY OWNER
 HAVING count(distinct OBJECT_TYPE) = 2;
 
 ---=== 8. feladat ===---
---Kik azok a felhasználók, akiknek van nézete, de nincs triggere?
+--Kik azok a felhasznÃ¡lÃ³k, akiknek van nÃ©zete, de nincs triggere?
 
 (
     SELECT OWNER
@@ -67,7 +67,7 @@ MINUS
 );
 
 ---=== 9. feladat ===---
---Kik azok a felhasználók, akiknek több mint 40 táblájuk, de maximum 37 indexük van?
+--Kik azok a felhasznÃ¡lÃ³k, akiknek tÃ¶bb mint 40 tÃ¡blÃ¡juk, de maximum 37 indexÃ¼k van?
 
 (
     SELECT OWNER
@@ -86,23 +86,23 @@ INTERSECT
 );
 
 ---=== 10. feladat ===---
---Melyek azok az objektum típusok, amelyek tényleges tárolást igényelnek, vagyis
---tartoznak hozzájuk adatblokkok? (A többinek csak a definíciója tárolódik adatszótárban)
+--Melyek azok az objektum tÃ­pusok, amelyek tÃ©nyleges tÃ¡rolÃ¡st igÃ©nyelnek, vagyis
+--tartoznak hozzÃ¡juk adatblokkok? (A tÃ¶bbinek csak a definÃ­ciÃ³ja tÃ¡rolÃ³dik adatszÃ³tÃ¡rban)
 
 SELECT distinct object_type 
 FROM dba_objects 
 WHERE data_object_id is not null;
 
 ---=== 11. feladat ===---
---Melyek azok az objektum típusok, amelyek nem igényelnek tényleges tárolást, vagyis nem
---tartoznak hozzájuk adatblokkok? (Ezeknek csak a definíciója tárolódik adatszótárban)
+--Melyek azok az objektum tÃ­pusok, amelyek nem igÃ©nyelnek tÃ©nyleges tÃ¡rolÃ¡st, vagyis nem
+--tartoznak hozzÃ¡juk adatblokkok? (Ezeknek csak a definÃ­ciÃ³ja tÃ¡rolÃ³dik adatszÃ³tÃ¡rban)
 
 SELECT distinct object_type 
 FROM dba_objects 
 WHERE data_object_id is null;
 
----=== Bónusz ===---
---Az utóbbi két lekérdezés metszete nem üres. Vajon miért? -> lásd majd partícionálás
+---=== BÃ³nusz ===---
+--Az utÃ³bbi kÃ©t lekÃ©rdezÃ©s metszete nem Ã¼res. Vajon miÃ©rt? -> lÃ¡sd majd partÃ­cionÃ¡lÃ¡s
 
 (
     SELECT distinct object_type 
@@ -117,34 +117,34 @@ INTERSECT
 );
 
 /*************************************************/
-/************     Táblák oszlopai      ***********/
+/************     TÃ¡blÃ¡k oszlopai      ***********/
 /************    (DBA_TAB_COLUMNS)     ***********/
 /*************************************************/
 
 ---=== 1. feladat ===---
---Hány oszlopa van a nikovits.emp táblának?
+--HÃ¡ny oszlopa van a nikovits.emp tÃ¡blÃ¡nak?
 
 SELECT count(*)
 FROM DBA_TAB_COLUMNS
 WHERE OWNER = 'NIKOVITS' AND TABLE_NAME = 'EMP';
 
 ---=== 2. feladat ===---
---Milyen típusú a nikovits.emp tábla 6. oszlopa?
+--Milyen tÃ­pusÃº a nikovits.emp tÃ¡bla 6. oszlopa?
 
 SELECT DATA_TYPE
 FROM DBA_TAB_COLUMNS
 WHERE OWNER = 'NIKOVITS' AND TABLE_NAME = 'EMP' AND COLUMN_ID = 6;
 
 ---=== 3. feladat ===---
---Adjuk meg azoknak a tábláknak a tulajdonosát és nevét, amelyeknek van 'Z' betûvel 
---kezdõdõ oszlopa.
+--Adjuk meg azoknak a tÃ¡blÃ¡knak a tulajdonosÃ¡t Ã©s nevÃ©t, amelyeknek van 'Z' betÅ±vel 
+--kezdÅ‘dÅ‘ oszlopa.
 
 SELECT distinct OWNER, TABLE_NAME
 FROM DBA_TAB_COLUMNS
 WHERE TABLE_NAME LIKE 'Z%';
 
 ---=== 4. feladat ===---
---Adjuk meg azoknak a tábláknak a nevét, amelyeknek legalább 8 darab dátum tipusú oszlopa van.
+--Adjuk meg azoknak a tÃ¡blÃ¡knak a nevÃ©t, amelyeknek legalÃ¡bb 8 darab dÃ¡tum tipusÃº oszlopa van.
 
 SELECT TABLE_NAME
 FROM DBA_TAB_COLUMNS
@@ -153,7 +153,7 @@ GROUP BY TABLE_NAME
 HAVING count(DATA_TYPE) >= 8;
 
 ---=== 5. feladat ===---
--- Adjuk meg azoknak a tábláknak a nevét, amelyeknek 1. es 4. oszlopa is VARCHAR2 tipusú.
+-- Adjuk meg azoknak a tÃ¡blÃ¡knak a nevÃ©t, amelyeknek 1. es 4. oszlopa is VARCHAR2 tipusÃº.
 
 (
     SELECT TABLE_NAME
@@ -168,10 +168,10 @@ UNION
 );
 
 ---=== 4. feladat ===---
---Írjunk meg egy PLSQL procedúrát, amelyik a paraméterül kapott karakterlánc alapján 
---kiírja azoknak a tábláknak a nevét és tulajdonosát, amelyek az adott karakterlánccal 
---kezdõdnek. (Ha a paraméter kisbetûs, akkor is mûködjön a procedúra!)
---A fenti procedúra segítségével írjuk ki a Z betûvel kezdõdõ táblák nevét és tulajdonosát.
+--Ãrjunk meg egy PLSQL procedÃºrÃ¡t, amelyik a paramÃ©terÃ¼l kapott karakterlÃ¡nc alapjÃ¡n 
+--kiÃ­rja azoknak a tÃ¡blÃ¡knak a nevÃ©t Ã©s tulajdonosÃ¡t, amelyek az adott karakterlÃ¡nccal 
+--kezdÅ‘dnek. (Ha a paramÃ©ter kisbetÅ±s, akkor is mÅ±kÃ¶djÃ¶n a procedÃºra!)
+--A fenti procedÃºra segÃ­tsÃ©gÃ©vel Ã­rjuk ki a Z betÅ±vel kezdÅ‘dÅ‘ tÃ¡blÃ¡k nevÃ©t Ã©s tulajdonosÃ¡t.
 
 CREATE OR REPLACE PROCEDURE table_print(p_kar VARCHAR2) IS
     CURSOR curs1 IS select owner, table_name 
@@ -193,15 +193,15 @@ SET SERVEROUTPUT ON
 EXECUTE table_print('Z');
 
 /*************************************************/
-/**************     Házi feladat      ************/
+/**************     HÃ¡zi feladat      ************/
 /*************************************************/
 
 /*
-Írjunk meg egy plsql procedúrát, amelyik a paraméterül kapott táblára kiírja 
-az õt létrehozó CREATE TABLE utasítást. 
+Ãrjunk meg egy plsql procedÃºrÃ¡t, amelyik a paramÃ©terÃ¼l kapott tÃ¡blÃ¡ra kiÃ­rja 
+az Å‘t lÃ©trehozÃ³ CREATE TABLE utasÃ­tÃ¡st. 
   PROCEDURE cr_tab(p_owner VARCHAR2, p_tabla VARCHAR2) 
-Elég ha az oszlopok típusát és DEFAULT értékeit kíírja, és elég ha a következõ típusú 
-oszlopokra mûködik.
+ElÃ©g ha az oszlopok tÃ­pusÃ¡t Ã©s DEFAULT Ã©rtÃ©keit kÃ­Ã­rja, Ã©s elÃ©g ha a kÃ¶vetkezÅ‘ tÃ­pusÃº 
+oszlopokra mÅ±kÃ¶dik.
   CHAR, VARCHAR2, NCHAR, NVARCHAR2, BLOB, CLOB, NCLOB, NUMBER, FLOAT, BINARY_FLOAT, DATE, ROWID
 */
 
@@ -209,9 +209,9 @@ CREATE OR REPLACE PROCEDURE cr_tab(p_owner VARCHAR2, p_tabla VARCHAR2) IS
 BEGIN
     dbms_output.put_line('CREATE TABLE ' || p_tabla ||'(');
     
---Fontos megjegyzés: 'ORA-00997: illegal use of LONG datatype' error ugrik fel, ha 
---'distinct' kulcsszó és 'data_default' is szerepel a 'dba_tab_columns' tábla lekérdezésekor.
---A 'distinct'-et ilyenkor törölni kell.
+--Fontos megjegyzÃ©s: 'ORA-00997: illegal use of LONG datatype' error ugrik fel, ha 
+--'distinct' kulcsszÃ³ Ã©s 'data_default' is szerepel a 'dba_tab_columns' tÃ¡bla lekÃ©rdezÃ©sekor.
+--A 'distinct'-et ilyenkor tÃ¶rÃ¶lni kell.
 
     FOR rec IN (
         select column_name, data_type, data_default, data_length
@@ -229,7 +229,7 @@ BEGIN
 END;
 /
 
---Teszteljük a procedúrát az alábbi táblával.
+--TeszteljÃ¼k a procedÃºrÃ¡t az alÃ¡bbi tÃ¡blÃ¡val.
 CREATE TABLE tipus_proba(
     c10 CHAR(10) DEFAULT 'bubu', 
     vc20 VARCHAR2(20), 
@@ -248,5 +248,4 @@ CREATE TABLE tipus_proba(
     rid ROWID
 );
 
-set serveroutput on;
-execute cr_tab('pw9yik', 'tipus_proba');
+DROP TABLE tipus_proba;

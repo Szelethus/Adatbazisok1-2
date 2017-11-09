@@ -1,80 +1,80 @@
-A rendszerkatalógus maga is egy adatbázisnak tekinthetõ, amit lekérdezve egyre többet
-tudhatunk meg az ORACLE adatbázisban tárolt dolgokról és azok tulajdonságairól.
-Elnevezésük: DBA_..., ALL_..., USER_...
+A rendszerkatalÃ³gus maga is egy adatbÃ¡zisnak tekinthetÅ‘, amit lekÃ©rdezve egyre tÃ¶bbet
+tudhatunk meg az ORACLE adatbÃ¡zisban tÃ¡rolt dolgokrÃ³l Ã©s azok tulajdonsÃ¡gairÃ³l.
+ElnevezÃ©sÃ¼k: DBA_..., ALL_..., USER_...
 
-Vigyázat !!!
-Az alábbiakban ha egy objektumnak vagy egy felhasználónak a neve kisbetûvel 
-szerepel a feladat szövegében, az nem jelenti, hogy ez az adatszótárban is kisbetûvel
-van tárolva. Pl. orauser - ORAUSER felhasználó, emp - EMP tábla.
+VigyÃ¡zat !!!
+Az alÃ¡bbiakban ha egy objektumnak vagy egy felhasznÃ¡lÃ³nak a neve kisbetÅ±vel 
+szerepel a feladat szÃ¶vegÃ©ben, az nem jelenti, hogy ez az adatszÃ³tÃ¡rban is kisbetÅ±vel
+van tÃ¡rolva. Pl. orauser - ORAUSER felhasznÃ¡lÃ³, emp - EMP tÃ¡bla.
 
-Adatbázis objektumok
+AdatbÃ¡zis objektumok
 --------------------
 (DBA_OBJECTS)
 
-Kinek a tulajdonában van a DBA_TABLES nevû nézet (illetve a DUAL nevû tábla)?
+Kinek a tulajdonÃ¡ban van a DBA_TABLES nevÅ± nÃ©zet (illetve a DUAL nevÅ± tÃ¡bla)?
 
-Kinek a tulajdonában van a DBA_TABLES nevû szinonima (illetve a DUAL nevû)?
-(Az iménti két lekérdezés megmagyarázza, hogy miért tudjuk elérni õket.)
+Kinek a tulajdonÃ¡ban van a DBA_TABLES nevÅ± szinonima (illetve a DUAL nevÅ±)?
+(Az imÃ©nti kÃ©t lekÃ©rdezÃ©s megmagyarÃ¡zza, hogy miÃ©rt tudjuk elÃ©rni Å‘ket.)
 
-Milyen típusú objektumai vannak az orauser nevû felhasználónak az adatbázisban?
+Milyen tÃ­pusÃº objektumai vannak az orauser nevÅ± felhasznÃ¡lÃ³nak az adatbÃ¡zisban?
 
-Hány különbözõ típusú objektum van nyilvántartva az adatbázisban?
+HÃ¡ny kÃ¼lÃ¶nbÃ¶zÅ‘ tÃ­pusÃº objektum van nyilvÃ¡ntartva az adatbÃ¡zisban?
 
-Melyek ezek a típusok?
+Melyek ezek a tÃ­pusok?
 
-Kik azok a felhasználók, akiknek több mint 10 féle objektumuk van?
+Kik azok a felhasznÃ¡lÃ³k, akiknek tÃ¶bb mint 10 fÃ©le objektumuk van?
 
-Kik azok a felhasználók, akiknek van triggere és nézete is?
+Kik azok a felhasznÃ¡lÃ³k, akiknek van triggere Ã©s nÃ©zete is?
 
-Kik azok a felhasználók, akiknek van nézete, de nincs triggere?
+Kik azok a felhasznÃ¡lÃ³k, akiknek van nÃ©zete, de nincs triggere?
 
-Kik azok a felhasználók, akiknek több mint 40 táblájuk, de maximum 37 indexük van?
+Kik azok a felhasznÃ¡lÃ³k, akiknek tÃ¶bb mint 40 tÃ¡blÃ¡juk, de maximum 37 indexÃ¼k van?
 
-Melyek azok az objektum típusok, amelyek tényleges tárolást igényelnek, vagyis
-tartoznak hozzájuk adatblokkok? (A többinek csak a definíciója tárolódik adatszótárban)
+Melyek azok az objektum tÃ­pusok, amelyek tÃ©nyleges tÃ¡rolÃ¡st igÃ©nyelnek, vagyis
+tartoznak hozzÃ¡juk adatblokkok? (A tÃ¶bbinek csak a definÃ­ciÃ³ja tÃ¡rolÃ³dik adatszÃ³tÃ¡rban)
 
-Melyek azok az objektum típusok, amelyek nem igényelnek tényleges tárolást, vagyis nem
-tartoznak hozzájuk adatblokkok? (Ezeknek csak a definíciója tárolódik adatszótárban)
-Az utóbbi két lekérdezés metszete nem üres. Vajon miért? -> lásd majd partícionálás
+Melyek azok az objektum tÃ­pusok, amelyek nem igÃ©nyelnek tÃ©nyleges tÃ¡rolÃ¡st, vagyis nem
+tartoznak hozzÃ¡juk adatblokkok? (Ezeknek csak a definÃ­ciÃ³ja tÃ¡rolÃ³dik adatszÃ³tÃ¡rban)
+Az utÃ³bbi kÃ©t lekÃ©rdezÃ©s metszete nem Ã¼res. Vajon miÃ©rt? -> lÃ¡sd majd partÃ­cionÃ¡lÃ¡s
 
 
-Táblák oszlopai
+TÃ¡blÃ¡k oszlopai
 ---------------
 (DBA_TAB_COLUMNS)
 
-Hány oszlopa van a nikovits.emp táblának?
+HÃ¡ny oszlopa van a nikovits.emp tÃ¡blÃ¡nak?
 
-Milyen típusú a nikovits.emp tábla 6. oszlopa?
+Milyen tÃ­pusÃº a nikovits.emp tÃ¡bla 6. oszlopa?
 
-Adjuk meg azoknak a tábláknak a tulajdonosát és nevét, amelyeknek van 'Z' betûvel 
-kezdõdõ oszlopa.
+Adjuk meg azoknak a tÃ¡blÃ¡knak a tulajdonosÃ¡t Ã©s nevÃ©t, amelyeknek van 'Z' betÅ±vel 
+kezdÅ‘dÅ‘ oszlopa.
 
-Adjuk meg azoknak a tábláknak a nevét, amelyeknek legalább 8 darab dátum tipusú oszlopa van.
+Adjuk meg azoknak a tÃ¡blÃ¡knak a nevÃ©t, amelyeknek legalÃ¡bb 8 darab dÃ¡tum tipusÃº oszlopa van.
 
-Adjuk meg azoknak a tábláknak a nevét, amelyeknek 1. es 4. oszlopa is
-VARCHAR2 tipusú.
+Adjuk meg azoknak a tÃ¡blÃ¡knak a nevÃ©t, amelyeknek 1. es 4. oszlopa is
+VARCHAR2 tipusÃº.
 
 -----------------------------------------------------------------------
-Írjunk meg egy PLSQL procedúrát, amelyik a paraméterül kapott karakterlánc alapján 
-kiírja azoknak a tábláknak a nevét és tulajdonosát, amelyek az adott karakterlánccal 
-kezdõdnek. (Ha a paraméter kisbetûs, akkor is mûködjön a procedúra!)
-A fenti procedúra segítségével írjuk ki a Z betûvel kezdõdõ táblák nevét és tulajdonosát.
+Ãrjunk meg egy PLSQL procedÃºrÃ¡t, amelyik a paramÃ©terÃ¼l kapott karakterlÃ¡nc alapjÃ¡n 
+kiÃ­rja azoknak a tÃ¡blÃ¡knak a nevÃ©t Ã©s tulajdonosÃ¡t, amelyek az adott karakterlÃ¡nccal 
+kezdÅ‘dnek. (Ha a paramÃ©ter kisbetÅ±s, akkor is mÅ±kÃ¶djÃ¶n a procedÃºra!)
+A fenti procedÃºra segÃ­tsÃ©gÃ©vel Ã­rjuk ki a Z betÅ±vel kezdÅ‘dÅ‘ tÃ¡blÃ¡k nevÃ©t Ã©s tulajdonosÃ¡t.
 CREATE OR REPLACE PROCEDURE table_print(p_kar VARCHAR2) IS 
 ...
 SET SERVEROUTPUT ON
 EXECUTE table_print('Z');
 -----------------------------------------------------------------------
 
-HÁZI FELADAT (kicsit több idõt igényel, mint a gyakorlaton megoldandók)
+HÃZI FELADAT (kicsit tÃ¶bb idÅ‘t igÃ©nyel, mint a gyakorlaton megoldandÃ³k)
 ------------
-Írjunk meg egy plsql procedúrát, amelyik a paraméterül kapott táblára kiírja 
-az õt létrehozó CREATE TABLE utasítást. 
+Ãrjunk meg egy plsql procedÃºrÃ¡t, amelyik a paramÃ©terÃ¼l kapott tÃ¡blÃ¡ra kiÃ­rja 
+az Å‘t lÃ©trehozÃ³ CREATE TABLE utasÃ­tÃ¡st. 
    PROCEDURE cr_tab(p_owner VARCHAR2, p_tabla VARCHAR2) 
-Elég ha az oszlopok típusát és DEFAULT értékeit kíírja, és elég ha a következõ típusú 
-oszlopokra mûködik.
+ElÃ©g ha az oszlopok tÃ­pusÃ¡t Ã©s DEFAULT Ã©rtÃ©keit kÃ­Ã­rja, Ã©s elÃ©g ha a kÃ¶vetkezÅ‘ tÃ­pusÃº 
+oszlopokra mÅ±kÃ¶dik.
  CHAR, VARCHAR2, NCHAR, NVARCHAR2, BLOB, CLOB, NCLOB, NUMBER, FLOAT, BINARY_FLOAT, DATE, ROWID
 
-Teszteljük a procedúrát az alábbi táblával.
+TeszteljÃ¼k a procedÃºrÃ¡t az alÃ¡bbi tÃ¡blÃ¡val.
 CREATE TABLE tipus_proba(c10 CHAR(10) DEFAULT 'bubu', vc20 VARCHAR2(20), nc10 NCHAR(10), 
   nvc15 NVARCHAR2(15), blo BLOB, clo CLOB, nclo NCLOB, num NUMBER, num10_2 NUMBER(10,2), 
   num10 NUMBER(10) DEFAULT 100, flo FLOAT, bin_flo binary_float DEFAULT '2e+38', 

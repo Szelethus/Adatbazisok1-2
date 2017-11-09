@@ -214,10 +214,10 @@ WHERE rownum <= 2;
 ---=== 9. feladat ===---
 --Hány extens van a 'users01.dbf' adatfájlban? Mekkora ezek összmérete?
 
-SELECT sum(extents)
-FROM dba_data_files f CROSS JOIN dba_segments s
-WHERE file_name LIKE '%users01.dbf' AND f.tablespace_name = s.tablespace_name
-GROUP BY file_name;
+SELECT file_name, count(*)
+FROM dba_data_files f CROSS JOIN dba_extents e
+WHERE file_name LIKE '%users01.dbf' AND f.file_id = e.file_id
+GROUP BY file_name; 
 
 ---=== 10. feladat ===---
 --Hány összefüggő szabad terület van a 'users01.dbf' adatfájlban? Mekkora ezek összmérete?
