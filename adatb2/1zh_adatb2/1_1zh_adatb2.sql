@@ -32,7 +32,7 @@ WHERE owner = 'NIKOVITS' AND cluster_type = 'INDEX';
 --Írjunk meg egy PL/SQL procedúrát, amelyik kiírja, hogy a NIKOVITS.HALLGATOK táblának
 --melyek azok az adatblokkjai, amelyekben nincs egyetlen sor sem (File_id, Block_id)
 
--- I tried so hard :'( 
+-- I tried so hard :'( but got nowhere
 
 /***** Koncepció: *****/
 
