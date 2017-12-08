@@ -2,13 +2,13 @@
 
 B+ fa index
 -----------
-Az alábbi feladatban a tankönyben leírt és az elõadáson is bemutatott algoritmussal 
-építsünk fel egy B+ fát!
+Az alÃ¡bbi feladatban a tankÃ¶nyben leÃ­rt Ã©s az elÅ‘adÃ¡son is bemutatott algoritmussal 
+Ã©pÃ­tsÃ¼nk fel egy B+ fÃ¡t!
 
-Tegyük fel, hogy egy B+ fa blokkjaiba 3 kulcs fér el plusz 4 mutató. A kulcsok 
-különbözõek. Szúrjuk be a B+ fába az alábbi kulcsértékeket a megadott sorrendben:
+TegyÃ¼k fel, hogy egy B+ fa blokkjaiba 3 kulcs fÃ©r el plusz 4 mutatÃ³. A kulcsok 
+kÃ¼lÃ¶nbÃ¶zÅ‘ek. SzÃºrjuk be a B+ fÃ¡ba az alÃ¡bbi kulcsÃ©rtÃ©keket a megadott sorrendben:
 39,15,50,70,79,83,72,43,75,45
-Adjuk meg a B+ fa minden olyan állapotát, amikor egy csomópont kettéosztására volt szükség.
+Adjuk meg a B+ fa minden olyan Ã¡llapotÃ¡t, amikor egy csomÃ³pont kettÃ©osztÃ¡sÃ¡ra volt szÃ¼ksÃ©g.
 
 
                        15|39|50                <- 70
@@ -28,7 +28,7 @@ Adjuk meg a B+ fa minden olyan állapotát, amikor egy csomópont kettéosztására vo
                         50|72|79
           15|39|43   50|70    72|75   79|83    <- 45 
 
-45 beszúrása két lépésre osztva:
+45 beszÃºrÃ¡sa kÃ©t lÃ©pÃ©sre osztva:
 1.
                         43|50|72|79
       15|39   43|45   50|70    72|75   79|83    
@@ -39,14 +39,14 @@ Adjuk meg a B+ fa minden olyan állapotát, amikor egy csomópont kettéosztására vo
       15|39   43|45   50|70    72|75   79|83    
 
 
-Egy kis segítség:
+Egy kis segÃ­tsÃ©g:
 ----------------
 
-Levél csúcs kettéosztásakor minden kulcsot megõrzünk a régi és az új (szomszédos) csúcsban.
-1 új kulcs-mutató párt küldünk felfelé a szülõ csúcsba, amit ott kell elhelyezni.
+LevÃ©l csÃºcs kettÃ©osztÃ¡sakor minden kulcsot megÅ‘rzÃ¼nk a rÃ©gi Ã©s az Ãºj (szomszÃ©dos) csÃºcsban.
+1 Ãºj kulcs-mutatÃ³ pÃ¡rt kÃ¼ldÃ¼nk felfelÃ© a szÃ¼lÅ‘ csÃºcsba, amit ott kell elhelyezni.
 
-Belsõ csúcs kettéosztásakor (N,M-re) a mutatók elsõ fele az N-be kerül, a második az M-be.
-A kulcsok elsõ fele az N-be kerül a második fele az M-be, de középen kimarad egy kulcs,
-ami az M-en keresztül (elsõ gyermekén keresztül) elérhetõ legkisebb kulcsot tartalmazza. 
-Ez nem kerül sem N-be, sem M-be, hanem ez megy fölfelé N és M közös szülõjébe az M-re mutató
-mutatóval együtt.
+BelsÅ‘ csÃºcs kettÃ©osztÃ¡sakor (N,M-re) a mutatÃ³k elsÅ‘ fele az N-be kerÃ¼l, a mÃ¡sodik az M-be.
+A kulcsok elsÅ‘ fele az N-be kerÃ¼l a mÃ¡sodik fele az M-be, de kÃ¶zÃ©pen kimarad egy kulcs,
+ami az M-en keresztÃ¼l (elsÅ‘ gyermekÃ©n keresztÃ¼l) elÃ©rhetÅ‘ legkisebb kulcsot tartalmazza. 
+Ez nem kerÃ¼l sem N-be, sem M-be, hanem ez megy fÃ¶lfelÃ© N Ã©s M kÃ¶zÃ¶s szÃ¼lÅ‘jÃ©be az M-re mutatÃ³
+mutatÃ³val egyÃ¼tt.

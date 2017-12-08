@@ -77,51 +77,87 @@ Az alábbi lekérdezésekkel megállapítjuk az iménti indexeknek mindenféle t
 katalógusokból.
 
 Adjuk meg azoknak a tábláknak a nevét, amelyeknek van csökkenő sorrendben indexelt oszlopa.
+--------------------------------------------------------------------------------
+SELECT * FROM dba_ind_columns WHERE descend='DESC' AND index_owner='NIKOVITS';
 
 Miért ilyen furcsa az oszlopnév?
 -> lásd DBA_IND_EXPRESSIONS
 
 Adjuk meg azoknak az indexeknek a nevét, amelyek legalább 9 oszloposak.
 (Vagyis a táblának legalább 9 oszlopát vagy egyéb kifejezését indexelik.)
+--------------------------------------------------------------------------------
+SELECT index_owner, index_name FROM dba_ind_columns 
+GROUP BY index_owner, index_name HAVING count(*) >=9;
 
 Adjuk meg az SH.SALES táblára létrehozott bitmap indexek nevét.
+--------------------------------------------------------------------------------
+SELECT index_name FROM dba_indexes 
+WHERE table_owner='SH' AND table_name='SALES' AND index_type='BITMAP';
 
 Adjuk meg azon kétoszlopos indexek nevét és tulajdonosát, amelyeknek legalább 
 az egyik kifejezése függvény alapú .
+--------------------------------------------------------------------------------
+SELECT index_owner, index_name FROM dba_ind_columns 
+GROUP BY index_owner, index_name HAVING count(*) >=2
+ INTERSECT
+SELECT index_owner, index_name FROM dba_ind_expressions;
 
 Adjuk meg az egyikükre, pl. az OE tulajdonában lévőre, hogy milyen kifejezések szerint 
 vannak indexelve a soraik. (Vagyis mi a függveny, ami alapján a bejegyzések készülnek.)
+--------------------------------------------------------------------------------
+SELECT * FROM dba_ind_expressions WHERE index_owner='OE';
 
 Adjuk meg a NIKOVITS felhasználó tulajdonában levő index-szervezett táblák nevét.
 (Melyik táblatéren vannak ezek a táblák? -> miért nem látható?)
+--------------------------------------------------------------------------------
+SELECT owner, table_name, iot_name, iot_type FROM dba_tables 
+WHERE owner='NIKOVITS' AND iot_type = 'IOT';
 
 Adjuk meg a fenti táblák index részét, és azt, hogy ezek az index részek (szegmensek) 
 melyik táblatéren vannak?
+--------------------------------------------------------------------------------
+SELECT table_name, index_name, index_type, tablespace_name FROM dba_indexes 
+WHERE table_owner='NIKOVITS' AND index_type LIKE '%IOT%TOP%';
 
 Keressük meg a szegmensek között az előző táblákat illetve indexeket, és adjuk
 meg a méretüket.
+--------------------------------------------------------------------------------
+SELECT table_name, index_name, index_type, s.bytes
+FROM dba_indexes i, dba_segments s 
+WHERE i.table_owner='NIKOVITS' AND i.index_type LIKE '%IOT%TOP%'
+AND i.index_name=s.segment_name AND s.owner='NIKOVITS';
 
 Keressük meg az adatbázis objektumok között a fenti táblákat és indexeket, és adjuk
 meg az objektum azonosítójukat és adatobjektum azonosítójukat (DATA_OBJECT_ID).
 
 Adjuk meg a fenti táblák túlcsordulási részeit (ha van).
+--------------------------------------------------------------------------------
+SELECT owner, table_name, iot_name, iot_type FROM dba_tables 
+WHERE owner='NIKOVITS' AND iot_type = 'IOT_OVERFLOW';
 
 Keressük meg a túlcsordulási részeket a szegmensek között és adjuk meg a méretüket.
+--------------------------------------------------------------------------------
+SELECT t.owner, t.table_name, t.iot_name, t.iot_type, s.bytes 
+FROM dba_tables t, dba_segments s
+WHERE t.owner='NIKOVITS' AND t.iot_type = 'IOT_OVERFLOW'
+AND s.owner='NIKOVITS' AND s.segment_name=t.table_name;
+
 Keressük meg az objektum azonosítóikat és az adatobjektum azonosítóikat is.
 
------------------------------------------------------------------------
 Írjunk meg egy plsql procedúrát, amelyik a paraméterül kapott index szervezett 
 tábláról kiírja a tábla méretét. 
-Vigyázzunk, mert a táblának lehet index és túlcsordulási szegmense is!
-CREATE OR REPLACE PROCEDURE iot_size(p_owner VARCHAR2, p_table VARCHAR2) IS 
-...
-SET SERVEROUTPUT ON
-EXECUTE iot_size('nikovits', 'cikk_iot');
------------------------------------------------------------------------
+   PROCEDURE iot_meret(p_owner VARCHAR2, p_tabla VARCHAR2) 
+Vigyázzunk, mert a táblának lehet index és túlcsordulási szegmense is.
 
 Adjuk meg azokat az index szervezett táblákat, amelyeknek pontosan 
 1 dátum típusú oszlopa van.
+--------------------------------------------------------------------------------
+SELECT owner, table_name FROM dba_tables WHERE iot_type = 'IOT'
+ INTERSECT
+SELECT owner, table_name FROM dba_tab_columns
+WHERE data_type='DATE' GROUP BY owner, table_name
+HAVING count(*) = 1;
 
-Adjuk meg, hogy mennyi a blokkolási faktora a következő tábláknak: NIKOVITS.CIKK, SH.CUSTOMERS
-Az üres blokkokat ne vegyük figyelembe, tehát a blokkolási faktor (a blokkban lévő sorok átlagos száma) 
-most a sorok_száma/nemüres_blokkok_száma.
+Adjuk meg, hogy mennyi a blokkolási faktora (a blokkban lévő sorok átlagos száma) 
+a következő tábláknak. (Az üres blokkokat ne vegyük figyelembe.)
+NIKOVITS.CIKK, SH.CUSTOMERS

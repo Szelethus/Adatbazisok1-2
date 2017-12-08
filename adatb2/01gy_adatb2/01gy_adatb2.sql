@@ -1,38 +1,38 @@
 /*************************************************/
-/************** Adatb·zis objektumok *************/
+/************** Adatb√°zis objektumok *************/
 /**************    (DBA_OBJECTS)     *************/
 /*************************************************/
 
 ---=== 1. feladat ===---
---Kinek a tulajdon·ban van a DBA_TABLES nev˚ nÈzet (illetve a DUAL nev˚ t·bla)?
+--Kinek a tulajdon√°ban van a DBA_TABLES nev≈± n√©zet (illetve a DUAL nev≈± t√°bla)?
 
 SELECT OWNER FROM DBA_VIEWS WHERE VIEW_NAME like 'DBA_TABLES';
 SELECT OWNER FROM DBA_TABLES WHERE TABLE_NAME like 'DUAL';
 
 ---=== 2. feladat ===---
---Kinek a tulajdon·ban van a DBA_TABLES nev˚ szinonima (illetve a DUAL nev˚)?
---(Az imÈnti kÈt lekÈrdezÈs megmagyar·zza, hogy miÈrt tudjuk elÈrni ıket.)
+--Kinek a tulajdon√°ban van a DBA_TABLES nev≈± szinonima (illetve a DUAL nev≈±)?
+--(Az im√©nti k√©t lek√©rdez√©s megmagyar√°zza, hogy mi√©rt tudjuk el√©rni ≈ëket.)
 
 SELECT OWNER FROM DBA_SYNONYMS WHERE TABLE_NAME like 'DBA_TABLES';
 SELECT OWNER FROM DBA_SYNONYMS WHERE TABLE_NAME like 'DUAL';
 
 ---=== 3. feladat ===---
---Milyen tÌpus˙ objektumai vannak az orauser nev˚ felhaszn·lÛnak az adatb·zisban?
+--Milyen t√≠pus√∫ objektumai vannak az orauser nev≈± felhaszn√°l√≥nak az adatb√°zisban?
 
 SELECT distinct OBJECT_TYPE FROM DBA_OBJECTS WHERE OWNER like 'ORAUSER';
 
 ---=== 4. feladat ===---
---H·ny k¸lˆnbˆzı tÌpus˙ objektum van nyilv·ntartva az adatb·zisban?
+--H√°ny k√ºl√∂nb√∂z≈ë t√≠pus√∫ objektum van nyilv√°ntartva az adatb√°zisban?
 
 SELECT count(distinct OBJECT_TYPE) FROM DBA_OBJECTS;
 
 ---=== 5. feladat ===---
---Melyek ezek a tÌpusok?
+--Melyek ezek a t√≠pusok?
 
 SELECT distinct OBJECT_TYPE FROM DBA_OBJECTS;
 
 ---=== 6. feladat ===---
---Kik azok a felhaszn·lÛk, akiknek tˆbb mint 10 fÈle objektumuk van?
+--Kik azok a felhaszn√°l√≥k, akiknek t√∂bb mint 10 f√©le objektumuk van?
 
 SELECT OWNER 
 FROM DBA_OBJECTS 
@@ -40,7 +40,7 @@ GROUP BY OWNER
 HAVING count(distinct OBJECT_TYPE) > 10;
 
 ---=== 7. feladat ===---
---Kik azok a felhaszn·lÛk, akiknek van triggere Ès nÈzete is?
+--Kik azok a felhaszn√°l√≥k, akiknek van triggere √©s n√©zete is?
 
 SELECT OWNER
 FROM DBA_OBJECTS 
@@ -49,7 +49,7 @@ GROUP BY OWNER
 HAVING count(distinct OBJECT_TYPE) = 2;
 
 ---=== 8. feladat ===---
---Kik azok a felhaszn·lÛk, akiknek van nÈzete, de nincs triggere?
+--Kik azok a felhaszn√°l√≥k, akiknek van n√©zete, de nincs triggere?
 
 (
     SELECT OWNER
@@ -67,7 +67,7 @@ MINUS
 );
 
 ---=== 9. feladat ===---
---Kik azok a felhaszn·lÛk, akiknek tˆbb mint 40 t·bl·juk, de maximum 37 index¸k van?
+--Kik azok a felhaszn√°l√≥k, akiknek t√∂bb mint 40 t√°bl√°juk, de maximum 37 index√ºk van?
 
 (
     SELECT OWNER
@@ -76,33 +76,33 @@ MINUS
     GROUP BY OWNER
     HAVING count(OBJECT_TYPE) > 40
 )
-INTERSECT
+MINUS
 (
     SELECT OWNER
     FROM DBA_OBJECTS
     WHERE OBJECT_TYPE = 'INDEX'
     GROUP BY OWNER
-    HAVING count(OBJECT_TYPE) <= 37
+    HAVING count(OBJECT_TYPE) > 37
 );
 
 ---=== 10. feladat ===---
---Melyek azok az objektum tÌpusok, amelyek tÈnyleges t·rol·st igÈnyelnek, vagyis
---tartoznak hozz·juk adatblokkok? (A tˆbbinek csak a definÌciÛja t·rolÛdik adatszÛt·rban)
+--Melyek azok az objektum t√≠pusok, amelyek t√©nyleges t√°rol√°st ig√©nyelnek, vagyis
+--tartoznak hozz√°juk adatblokkok? (A t√∂bbinek csak a defin√≠ci√≥ja t√°rol√≥dik adatsz√≥t√°rban)
 
 SELECT distinct object_type 
 FROM dba_objects 
 WHERE data_object_id is not null;
 
 ---=== 11. feladat ===---
---Melyek azok az objektum tÌpusok, amelyek nem igÈnyelnek tÈnyleges t·rol·st, vagyis nem
---tartoznak hozz·juk adatblokkok? (Ezeknek csak a definÌciÛja t·rolÛdik adatszÛt·rban)
+--Melyek azok az objektum t√≠pusok, amelyek nem ig√©nyelnek t√©nyleges t√°rol√°st, vagyis nem
+--tartoznak hozz√°juk adatblokkok? (Ezeknek csak a defin√≠ci√≥ja t√°rol√≥dik adatsz√≥t√°rban)
 
 SELECT distinct object_type 
 FROM dba_objects 
 WHERE data_object_id is null;
 
----=== BÛnusz ===---
---Az utÛbbi kÈt lekÈrdezÈs metszete nem ¸res. Vajon miÈrt? -> l·sd majd partÌcion·l·s
+---=== B√≥nusz ===---
+--Az ut√≥bbi k√©t lek√©rdez√©s metszete nem √ºres. Vajon mi√©rt? -> l√°sd majd part√≠cion√°l√°s
 
 (
     SELECT distinct object_type 
@@ -117,34 +117,34 @@ INTERSECT
 );
 
 /*************************************************/
-/************     T·bl·k oszlopai      ***********/
+/************     T√°bl√°k oszlopai      ***********/
 /************    (DBA_TAB_COLUMNS)     ***********/
 /*************************************************/
 
 ---=== 1. feladat ===---
---H·ny oszlopa van a nikovits.emp t·bl·nak?
+--H√°ny oszlopa van a nikovits.emp t√°bl√°nak?
 
 SELECT count(*)
 FROM DBA_TAB_COLUMNS
 WHERE OWNER = 'NIKOVITS' AND TABLE_NAME = 'EMP';
 
 ---=== 2. feladat ===---
---Milyen tÌpus˙ a nikovits.emp t·bla 6. oszlopa?
+--Milyen t√≠pus√∫ a nikovits.emp t√°bla 6. oszlopa?
 
 SELECT DATA_TYPE
 FROM DBA_TAB_COLUMNS
 WHERE OWNER = 'NIKOVITS' AND TABLE_NAME = 'EMP' AND COLUMN_ID = 6;
 
 ---=== 3. feladat ===---
---Adjuk meg azoknak a t·bl·knak a tulajdonos·t Ès nevÈt, amelyeknek van 'Z' bet˚vel 
---kezdıdı oszlopa.
+--Adjuk meg azoknak a t√°bl√°knak a tulajdonos√°t √©s nev√©t, amelyeknek van 'Z' bet≈±vel 
+--kezd≈ëd≈ë oszlopa.
 
 SELECT distinct OWNER, TABLE_NAME
 FROM DBA_TAB_COLUMNS
 WHERE TABLE_NAME LIKE 'Z%';
 
 ---=== 4. feladat ===---
---Adjuk meg azoknak a t·bl·knak a nevÈt, amelyeknek legal·bb 8 darab d·tum tipus˙ oszlopa van.
+--Adjuk meg azoknak a t√°bl√°knak a nev√©t, amelyeknek legal√°bb 8 darab d√°tum tipus√∫ oszlopa van.
 
 SELECT TABLE_NAME
 FROM DBA_TAB_COLUMNS
@@ -153,7 +153,7 @@ GROUP BY TABLE_NAME
 HAVING count(DATA_TYPE) >= 8;
 
 ---=== 5. feladat ===---
--- Adjuk meg azoknak a t·bl·knak a nevÈt, amelyeknek 1. es 4. oszlopa is VARCHAR2 tipus˙.
+-- Adjuk meg azoknak a t√°bl√°knak a nev√©t, amelyeknek 1. es 4. oszlopa is VARCHAR2 tipus√∫.
 
 (
     SELECT TABLE_NAME
@@ -168,10 +168,10 @@ UNION
 );
 
 ---=== 4. feladat ===---
---Õrjunk meg egy PLSQL proced˙r·t, amelyik a paramÈter¸l kapott karakterl·nc alapj·n 
---kiÌrja azoknak a t·bl·knak a nevÈt Ès tulajdonos·t, amelyek az adott karakterl·nccal 
---kezdıdnek. (Ha a paramÈter kisbet˚s, akkor is m˚kˆdjˆn a proced˙ra!)
---A fenti proced˙ra segÌtsÈgÈvel Ìrjuk ki a Z bet˚vel kezdıdı t·bl·k nevÈt Ès tulajdonos·t.
+--√çrjunk meg egy PLSQL proced√∫r√°t, amelyik a param√©ter√ºl kapott karakterl√°nc alapj√°n 
+--ki√≠rja azoknak a t√°bl√°knak a nev√©t √©s tulajdonos√°t, amelyek az adott karakterl√°nccal 
+--kezd≈ëdnek. (Ha a param√©ter kisbet≈±s, akkor is m≈±k√∂dj√∂n a proced√∫ra!)
+--A fenti proced√∫ra seg√≠ts√©g√©vel √≠rjuk ki a Z bet≈±vel kezd≈ëd≈ë t√°bl√°k nev√©t √©s tulajdonos√°t.
 
 CREATE OR REPLACE PROCEDURE table_print(p_kar VARCHAR2) IS
     CURSOR curs1 IS select owner, table_name 
@@ -193,15 +193,15 @@ SET SERVEROUTPUT ON
 EXECUTE table_print('Z');
 
 /*************************************************/
-/**************     H·zi feladat      ************/
+/**************     H√°zi feladat      ************/
 /*************************************************/
 
 /*
-Õrjunk meg egy plsql proced˙r·t, amelyik a paramÈter¸l kapott t·bl·ra kiÌrja 
-az ıt lÈtrehozÛ CREATE TABLE utasÌt·st. 
+√çrjunk meg egy plsql proced√∫r√°t, amelyik a param√©ter√ºl kapott t√°bl√°ra ki√≠rja 
+az ≈ët l√©trehoz√≥ CREATE TABLE utas√≠t√°st. 
   PROCEDURE cr_tab(p_owner VARCHAR2, p_tabla VARCHAR2) 
-ElÈg ha az oszlopok tÌpus·t Ès DEFAULT ÈrtÈkeit kÌÌrja, Ès elÈg ha a kˆvetkezı tÌpus˙ 
-oszlopokra m˚kˆdik.
+El√©g ha az oszlopok t√≠pus√°t √©s DEFAULT √©rt√©keit k√≠√≠rja, √©s el√©g ha a k√∂vetkez≈ë t√≠pus√∫ 
+oszlopokra m≈±k√∂dik.
   CHAR, VARCHAR2, NCHAR, NVARCHAR2, BLOB, CLOB, NCLOB, NUMBER, FLOAT, BINARY_FLOAT, DATE, ROWID
 */
 
@@ -209,9 +209,9 @@ CREATE OR REPLACE PROCEDURE cr_tab(p_owner VARCHAR2, p_tabla VARCHAR2) IS
 BEGIN
     dbms_output.put_line('CREATE TABLE ' || p_tabla ||'(');
     
---Fontos megjegyzÈs: 'ORA-00997: illegal use of LONG datatype' error ugrik fel, ha 
---'distinct' kulcsszÛ Ès 'data_default' is szerepel a 'dba_tab_columns' t·bla lekÈrdezÈsekor.
---A 'distinct'-et ilyenkor tˆrˆlni kell.
+--Fontos megjegyz√©s: 'ORA-00997: illegal use of LONG datatype' error ugrik fel, ha 
+--'distinct' kulcssz√≥ √©s 'data_default' is szerepel a 'dba_tab_columns' t√°bla lek√©rdez√©sekor.
+--A 'distinct'-et ilyenkor t√∂r√∂lni kell.
 
     FOR rec IN (
         select column_name, data_type, data_default, data_length
@@ -229,7 +229,7 @@ BEGIN
 END;
 /
 
---Tesztelj¸k a proced˙r·t az al·bbi t·bl·val.
+--Tesztelj√ºk a proced√∫r√°t az al√°bbi t√°bl√°val.
 CREATE TABLE tipus_proba(
     c10 CHAR(10) DEFAULT 'bubu', 
     vc20 VARCHAR2(20), 
@@ -248,5 +248,4 @@ CREATE TABLE tipus_proba(
     rid ROWID
 );
 
-set serveroutput on;
-execute cr_tab('pw9yik', 'tipus_proba');
+DROP TABLE tipus_proba;

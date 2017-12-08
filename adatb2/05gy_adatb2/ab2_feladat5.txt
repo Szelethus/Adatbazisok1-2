@@ -1,36 +1,36 @@
-Partícionálás
+PartÃ­cionÃ¡lÃ¡s
 -------------
 (DBA_PART_TABLES, DBA_PART_INDEXES, DBA_TAB_PARTITIONS, DBA_IND_PARTITIONS, 
 DBA_TAB_SUBPARTITIONS, DBA_IND_SUBPARTITIONS, DBA_PART_KEY_COLUMNS)
 
 
-Adjuk meg az SH felhasználó tulajdonában levõ partícionált táblák nevét és a 
-particionálás típusát.
+Adjuk meg az SH felhasznÃ¡lÃ³ tulajdonÃ¡ban levÅ‘ partÃ­cionÃ¡lt tÃ¡blÃ¡k nevÃ©t Ã©s a 
+particionÃ¡lÃ¡s tÃ­pusÃ¡t.
 
-Soroljuk fel az SH.COSTS tábla partícióit valamint, hogy hány blokkot foglalnak
-az egyes partíciók. (Vigyázat! Különbözõ értéket kaphatunk a különbözõ adatszótárakban.
-Ennek magyarázatát lásd késõbb az ANALYZE parancsnál)
+Soroljuk fel az SH.COSTS tÃ¡bla partÃ­ciÃ³it valamint, hogy hÃ¡ny blokkot foglalnak
+az egyes partÃ­ciÃ³k. (VigyÃ¡zat! KÃ¼lÃ¶nbÃ¶zÅ‘ Ã©rtÃ©ket kaphatunk a kÃ¼lÃ¶nbÃ¶zÅ‘ adatszÃ³tÃ¡rakban.
+Ennek magyarÃ¡zatÃ¡t lÃ¡sd kÃ©sÅ‘bb az ANALYZE parancsnÃ¡l)
 
-Adjuk meg, hogy az SH.COSTS tábla mely oszlop(ok) szerint van particionálva.
+Adjuk meg, hogy az SH.COSTS tÃ¡bla mely oszlop(ok) szerint van particionÃ¡lva.
 
-Adjuk meg, hogy a NIKOVITS.ELADASOK3 illetve az SH.COSTS táblák második partíciójában
-milyen értékek szerepelhetnek.
+Adjuk meg, hogy a NIKOVITS.ELADASOK3 illetve az SH.COSTS tÃ¡blÃ¡k mÃ¡sodik partÃ­ciÃ³jÃ¡ban
+milyen Ã©rtÃ©kek szerepelhetnek.
 
-Adjuk meg egy partícionált tábla logikai és fizikai részeit (pl. NIKOVITS.ELADASOK). 
-Maga a tábla most is logikai objektum, a partíciói vannak fizikailag tárolva.
-Nézzük meg az objektumok és a szegmensek között is.
+Adjuk meg egy partÃ­cionÃ¡lt tÃ¡bla logikai Ã©s fizikai rÃ©szeit (pl. NIKOVITS.ELADASOK). 
+Maga a tÃ¡bla most is logikai objektum, a partÃ­ciÃ³i vannak fizikailag tÃ¡rolva.
+NÃ©zzÃ¼k meg az objektumok Ã©s a szegmensek kÃ¶zÃ¶tt is.
 
-Illetve ha alpartíciói is vannak (pl. nikovits.eladasok4), akkor csak az alpartíciók 
-vannak tárolva. Nézzük meg az objektumok és a szegmensek között is.
+Illetve ha alpartÃ­ciÃ³i is vannak (pl. nikovits.eladasok4), akkor csak az alpartÃ­ciÃ³k 
+vannak tÃ¡rolva. NÃ©zzÃ¼k meg az objektumok Ã©s a szegmensek kÃ¶zÃ¶tt is.
 
-Melyik a legnagyobb méretû partícionált tábla az adatbázisban a partíciók 
-összméretét tekintve? (az alpartícióval rendelkezõ táblákat is vegyük figyelembe)
+Melyik a legnagyobb mÃ©retÅ± partÃ­cionÃ¡lt tÃ¡bla az adatbÃ¡zisban a partÃ­ciÃ³k 
+Ã¶sszmÃ©retÃ©t tekintve? (az alpartÃ­ciÃ³val rendelkezÅ‘ tÃ¡blÃ¡kat is vegyÃ¼k figyelembe)
 
-Dinamikus SQL utasítások PL/SQL programban
+Dinamikus SQL utasÃ­tÃ¡sok PL/SQL programban
 ------------------------------------------
-Írjunk meg egy PLSQL procedúrát, amelyik kiírja a paraméterül kapott táblára,
-hogy annak hány üres blokkja van. A procedúrát úgy írjuk meg, hogy az partícionált táblára
-is mûködjön.
+Ãrjunk meg egy PLSQL procedÃºrÃ¡t, amelyik kiÃ­rja a paramÃ©terÃ¼l kapott tÃ¡blÃ¡ra,
+hogy annak hÃ¡ny Ã¼res blokkja van. A procedÃºrÃ¡t Ãºgy Ã­rjuk meg, hogy az partÃ­cionÃ¡lt tÃ¡blÃ¡ra
+is mÅ±kÃ¶djÃ¶n.
 CREATE OR REPLACE PROCEDURE empty_blocks(p_owner VARCHAR2, p_table VARCHAR2) IS
 ...
 SET SERVEROUTPUT ON
@@ -39,10 +39,10 @@ EXECUTE empty_blocks('sh','sales');
 EXECUTE empty_blocks('nikovits','hivas');  -- ez kb. 1 percig is futhat
 
 Tipp: 
-Nézzük meg, hogy összesen hány blokkot tartalmaz(nak) a tábla szegmense(i). (partícionált is lehet !)
-Számoljuk meg az olyan blokkok számát, amelyek nem üresek. A fenti kettõ különbsége adja a végeredményt.
-Mivel a tábla nevét csak futásidõben fogjuk megtudni, ezért úgynevezett dinamikus SQL utasítást
-kell használnunk. Ehhez lásd: pl_dinamikusSQL.txt
+NÃ©zzÃ¼k meg, hogy Ã¶sszesen hÃ¡ny blokkot tartalmaz(nak) a tÃ¡bla szegmense(i). (partÃ­cionÃ¡lt is lehet !)
+SzÃ¡moljuk meg az olyan blokkok szÃ¡mÃ¡t, amelyek nem Ã¼resek. A fenti kettÅ‘ kÃ¼lÃ¶nbsÃ©ge adja a vÃ©geredmÃ©nyt.
+Mivel a tÃ¡bla nevÃ©t csak futÃ¡sidÅ‘ben fogjuk megtudni, ezÃ©rt Ãºgynevezett dinamikus SQL utasÃ­tÃ¡st
+kell hasznÃ¡lnunk. Ehhez lÃ¡sd: pl_dinamikusSQL.txt
 --------------------------------------------------------------------------------
 
 
@@ -50,29 +50,29 @@ Klaszter (CLUSTER)
 ------------------
 (DBA_CLUSTERS, DBA_CLU_COLUMNS, DBA_TABLES, DBA_CLUSTER_HASH_EXPRESSIONS)
 
-Hozzunk létre egy DOLGOZO(dazon, nev, beosztas, fonoke, fizetes, oazon ... stb.) 
-és egy OSZTALY(oazon, nev, telephely ... stb.) nevû táblát. 
-(lásd NIKOVITS.DOLGOZO és NIKOVITS.OSZTALY)
-A két táblának az osztály azonosítója (oazon) lesz a közös oszlopa. A két táblát 
-egy index alapú CLUSTEREN hozzuk létre. (Elõbb persze létre kell hozni a clustert is.)
-Majd tegyünk bele 3 osztályt, és osztályonként két dolgozót.
+Hozzunk lÃ©tre egy DOLGOZO(dazon, nev, beosztas, fonoke, fizetes, oazon ... stb.) 
+Ã©s egy OSZTALY(oazon, nev, telephely ... stb.) nevÅ± tÃ¡blÃ¡t. 
+(lÃ¡sd NIKOVITS.DOLGOZO Ã©s NIKOVITS.OSZTALY)
+A kÃ©t tÃ¡blÃ¡nak az osztÃ¡ly azonosÃ­tÃ³ja (oazon) lesz a kÃ¶zÃ¶s oszlopa. A kÃ©t tÃ¡blÃ¡t 
+egy index alapÃº CLUSTEREN hozzuk lÃ©tre. (ElÅ‘bb persze lÃ©tre kell hozni a clustert is.)
+Majd tegyÃ¼nk bele 3 osztÃ¡lyt, Ã©s osztÃ¡lyonkÃ©nt kÃ©t dolgozÃ³t.
 
-Adjunk meg egy olyan clustert az adatbázisban (ha van ilyen), amelyen még nincs
-egy tábla sem. 
+Adjunk meg egy olyan clustert az adatbÃ¡zisban (ha van ilyen), amelyen mÃ©g nincs
+egy tÃ¡bla sem. 
 
-Adjunk meg egy olyant, amelyiken legalább 2 (esetleg 3) darab tábla van.
+Adjunk meg egy olyant, amelyiken legalÃ¡bb 2 (esetleg 3) darab tÃ¡bla van.
 
-Adjunk meg egy olyan clustert, amelynek a cluster kulcsa 3 oszlopból áll.
-(Vigyázat!!! Több tábla is lehet rajta)
+Adjunk meg egy olyan clustert, amelynek a cluster kulcsa 3 oszlopbÃ³l Ã¡ll.
+(VigyÃ¡zat!!! TÃ¶bb tÃ¡bla is lehet rajta)
 
 HASH CLUSTER
-Hány olyan hash cluster van az adatbázisban, amely nem az oracle alapértelmezés 
-szerinti hash függvényén alapul?
+HÃ¡ny olyan hash cluster van az adatbÃ¡zisban, amely nem az oracle alapÃ©rtelmezÃ©s 
+szerinti hash fÃ¼ggvÃ©nyÃ©n alapul?
 
-Hozzunk létre egy hash clustert és rajta két táblát, majd szúrjunk be a 
-táblákba sorokat úgy, hogy a két táblának 2-2 sora ugyanabba a blokkba 
-kerüljön. Ellenõrizzük is egy lekérdezéssel, hogy a 4 sor valóban ugyanabban 
-a blokkban van-e. (A ROWID lekérdezésével)
-TIPP: A sorok elhelyezését befolyásolni tudjuk a HASH IS megadásával.
+Hozzunk lÃ©tre egy hash clustert Ã©s rajta kÃ©t tÃ¡blÃ¡t, majd szÃºrjunk be a 
+tÃ¡blÃ¡kba sorokat Ãºgy, hogy a kÃ©t tÃ¡blÃ¡nak 2-2 sora ugyanabba a blokkba 
+kerÃ¼ljÃ¶n. EllenÅ‘rizzÃ¼k is egy lekÃ©rdezÃ©ssel, hogy a 4 sor valÃ³ban ugyanabban 
+a blokkban van-e. (A ROWID lekÃ©rdezÃ©sÃ©vel)
+TIPP: A sorok elhelyezÃ©sÃ©t befolyÃ¡solni tudjuk a HASH IS megadÃ¡sÃ¡val.
 
 
