@@ -41,7 +41,7 @@ create table PLAN_TABLE (
 
 DROP TABLE PLAN_TABLE;
 
-EXPLAIN PLAN SET statement_id='ut1'  -- ut1 -> az utasításnak egyedi nevet adunk
+EXPLAIN PLAN SET statement_id='ut1'  -- ut1 -> az utasÃ­tÃ¡snak egyedi nevet adunk
   FOR 
   SELECT avg(fizetes) FROM nikovits.dolgozo;
   
@@ -49,7 +49,7 @@ SELECT * FROM PLAN_TABLE;
 
 SELECT LPAD(' ', 2*(level-1))||operation||' + '||options||' + '||object_name terv
 FROM plan_table
-START WITH id = 0 AND statement_id = 'ut1'                 -- az utasítás neve szerepel itt
+START WITH id = 0 AND statement_id = 'ut1'                 -- az utasÃ­tÃ¡s neve szerepel itt
 CONNECT BY PRIOR id = parent_id AND statement_id = 'ut1'   -- meg itt
 ORDER SIBLINGS BY position;
 
@@ -57,7 +57,7 @@ ORDER SIBLINGS BY position;
 SELECT SUBSTR(LPAD(' ', 2*(LEVEL-1))||operation||' + '||options||' + '||object_name, 1, 50) terv,
   cost, cardinality, bytes, io_cost, cpu_cost
 FROM plan_table
-START WITH ID = 0 AND STATEMENT_ID = 'ut1'                 -- az utasítás neve szerepel itt
+START WITH ID = 0 AND STATEMENT_ID = 'ut1'                 -- az utasÃ­tÃ¡s neve szerepel itt
 CONNECT BY PRIOR id = parent_id AND statement_id = 'ut1'   -- meg itt
 ORDER SIBLINGS BY position;
 
@@ -68,7 +68,7 @@ CREATE TABLE dolgozo AS SELECT * FROM nikovits.dolgozo;
 CREATE TABLE osztaly AS SELECT * FROM nikovits.osztaly;
 CREATE TABLE Fiz_kategoria  AS SELECT * FROM nikovits.Fiz_kategoria;
 
-EXPLAIN PLAN SET statement_id='ut2'  -- ut1 -> az utasításnak egyedi nevet adunk
+EXPLAIN PLAN SET statement_id='ut2'  -- ut1 -> az utasÃ­tÃ¡snak egyedi nevet adunk
   FOR 
 SELECT DISTINCT onev
 FROM dolgozo NATURAL JOIN osztaly
@@ -89,7 +89,7 @@ select plan_table_output from table(dbms_xplan.display('plan_table','ut1','all')
 select plan_table_output from table(dbms_xplan.display('plan_table','ut2','all'));
 
 ---=== 1. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy egyik táblára se használjon indexet az oracle. 
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy egyik tÃ¡blÃ¡ra se hasznÃ¡ljon indexet az oracle. 
 EXPLAIN PLAN SET statement_id = 'cikk_orig'
     FOR
 SELECT sum(mennyiseg)
@@ -99,7 +99,7 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_orig','all'));
 
 ---=== 2. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy csak az egyik táblára használjon indexet az oracle. 
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy csak az egyik tÃ¡blÃ¡ra hasznÃ¡ljon indexet az oracle. 
 EXPLAIN PLAN SET statement_id = 'cikk_index_one_table'
     FOR
 SELECT /*+ index(c) */ sum(mennyiseg)
@@ -109,7 +109,7 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_index_one_table','all'));
 
 ---=== 3. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy mindkét táblára használjon indexet az oracle.
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy mindkÃ©t tÃ¡blÃ¡ra hasznÃ¡ljon indexet az oracle.
 EXPLAIN PLAN SET statement_id = 'cikk_index_two_tables'
     FOR
 SELECT /*+ index(c) index(sz) */ sum(mennyiseg)
@@ -119,7 +119,7 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_index_two_tables','all'));
 
 ---=== 4. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy a két táblát SORT-MERGE módszerrel kapcsolja össze.
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy a kÃ©t tÃ¡blÃ¡t SORT-MERGE mÃ³dszerrel kapcsolja Ã¶ssze.
 
 EXPLAIN PLAN SET statement_id = 'cikk_sort_merge'
     FOR
@@ -130,7 +130,7 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_sort_merge','all'));
 
 ---===  5. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy a két táblát NESTED-LOOPS módszerrel kapcsolja össze. 
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy a kÃ©t tÃ¡blÃ¡t NESTED-LOOPS mÃ³dszerrel kapcsolja Ã¶ssze. 
 
 EXPLAIN PLAN SET statement_id = 'cikk_nested_loops'
     FOR
@@ -141,7 +141,7 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_nested_loops','all'));
 
 ---=== 6. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy a két táblát HASH-JOIN módszerrel kapcsolja össze.
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy a kÃ©t tÃ¡blÃ¡t HASH-JOIN mÃ³dszerrel kapcsolja Ã¶ssze.
 
 EXPLAIN PLAN SET statement_id = 'cikk_hash_join'
     FOR
@@ -152,8 +152,8 @@ WHERE szin = 'piros';
 select plan_table_output from table(dbms_xplan.display('plan_table','cikk_hash_join','all'));
 
 ---=== 7. feladat ===---
--- Adjuk meg úgy a lekérdezést, hogy a két táblát NESTED-LOOPS módszerrel kapcsolja össze,
--- és ne használjon indexet. 
+-- Adjuk meg Ãºgy a lekÃ©rdezÃ©st, hogy a kÃ©t tÃ¡blÃ¡t NESTED-LOOPS mÃ³dszerrel kapcsolja Ã¶ssze,
+-- Ã©s ne hasznÃ¡ljon indexet. 
 
 EXPLAIN PLAN SET statement_id = 'cikk_nested_loops_no_index'
     FOR
