@@ -1,0 +1,100 @@
+A honlapomra kitett feladatokat folyamatosan kell megoldani, de csak
+néhány alkalommal összegyûjtve kell majd levélben elküldeni a megoldásokat.
+A beadandó feladatokat 2 fõs csoportokba szervezõdve lehet megoldani.
+Azokat a feladatokat, ahol lekérdezést vagy programot kell beadni, az alábbi 
+egységes formában, .txt állományokban kérem:
+
+*** Feladat szövege
+*** Lekérdezés vagy program
+*** A futtatás eredménye 
+****************************************************************************
+Elküldendõ: 5 trigger
+
+1. feladat
+
+(Trigger)
+
+1/1
+Az ORAUSER nevû oracle felhasználó tulajdonában van egy DOLGOZO nevû
+tábla. Hozzunk létre a saját sémánkban egy azonos nevû és tartalmú táblát,
+valamint egy TRIGGER_LOG nevû táblát, aminek a következõ a szerkezete:
+     (  idopont    DATE,
+        muvelet    VARCHAR2(20),
+        esemeny    VARCHAR2(80)   
+     )
+Hozzunk létre egy triggert, ami akkor aktivizálódik ha a dolgozo tábla
+fizetes oszlopát módosítják. A trigger a következõ mûveleteket végezze el:
+
+Ha a dolgozó új fizetése nagyobb lesz mint 4000 akkor errõl tegyen egy 
+bejegyzést a trigger_log táblába. Az esemény oszlopba írja be a régi és az 
+új fizetést is.
+
+Az elnök (foglalkozas = 'PRESIDENT') fizetését ne engedje módositani. 
+(A módosítás után a fizetés maradjon a régi.) Errõl is tegyen egy bejegyzést
+a trigger_log táblába. Az esemény oszlopba írja be, hogy a fizetés nem 
+változott.
+
+
+1/2
+Hozzunk létre egy TRIGGER_LOG2 nevû táblát is, aminek a szerkezete a következõ:
+     ( idopont     DATE, 
+       muvelet     VARCHAR2(20), 
+       uj_osszfiz  NUMBER
+     )
+Hozzunk létre egy triggert, ami akkor aktivizálodik ha a dolgozo tablara
+valamilyen modosito muveletet (INSERT, DELETE, UPDATE) hajtanak vegre.
+A trigger irja be a trigger_log2 tablaba a modositas idopontjat, a muveletet
+es az uj osszfizetest. Ha az uj osszfizetes nagyobb lenne mint 40000, akkor
+a trigger utasitsa vissza a modosito muveletet, és hibaüzenetkent küldje vissza,
+hogy 'Tul nagy osszfizetes'. Ez esetben naplóznia sem kell.
+
+
+1/3
+Hozzunk létre egy nézetet az alábbi utasitással, ami az osztalyonkenti
+osszfizetést tartalmazza.
+   CREATE OR REPLACE VIEW dept_sal AS 
+   SELECT dname, SUM(sal) sumsal 
+   FROM dept, emp
+   WHERE emp.deptno = dept.deptno
+   GROUP BY dname;
+Hozzunk létre egy triggert, aminek segitségével lehetõvé valik a nezet 
+modositasa (csak UPDATE utasitással) oly modon, hogy a trigger a modositast 
+visszavezeti az alaptablakra. Ha az osztaly neve (DNAME) valtozik, akkor 
+az valtozzon meg a DEPT tablaban, ha pedig az osszfizetes (SUMSAL) valtozik,
+akkor az adott osztaly osszes dolgozojanak fizetese egyforma mertekben valtozzon 
+meg, ugy hogy a valtoztatas utani osszfizetes a kivant legyen.
+
+Természetesen probáljak is ki, hogy a triggerek megfelelõen mûkodnek-e.
+Küldjék el a mûveleteket es a naplótáblak illetve a nézet tartalmát is.
+
+1/4
+Hozzunk létre egy DDL_LOG nevû táblát, aminek az alábbi a szerkezete:
+    ( tulajdonos VARCHAR2(30), 
+      obj_nev    VARCHAR2(30), 
+      obj_tipus  VARCHAR2(30), 
+      muvelet    VARCHAR2(400), 
+      idopont    DATE )
+
+Hozzanak létre egy triggert, ami bármelyik saját maguk által indított DDL mûvelet
+eredményét naplózza a fenti táblába. Pl. egy ALTER TABLE t1 ADD(o2 NUMBER);
+esetén ezeket írja be ->  <tulajdonos>, 'T1', 'TABLE', 'ALTER', <idõpont>
+
+TIPP: 12c dokumentáció PL/SQL Language Reference 9. fejezet -> Event Attribute Functions
+Vigyázat! A fenti trigger a jövõben is el fog indulni, akkor amikor már 
+          rég elfeledkeztünk róla, és meglepõ hibaüzeneteket eredményezhet.
+
+1/5
+Hozzunk létre egy NAPLO nevû táblát, aminek az alábbi a szerkezete:
+    ( datum   DATE,
+      felh    VARCHAR2(100),
+      gep     VARCHAR2(100),
+      ip      VARCHAR2(100),
+      osuser  VARCHAR2(100))
+Hozzunk létre egy triggert, ami a bejelentkezéseket naplózza a fenti táblába.
+Naplózzuk a felhasználó (Oracle-beli) azonosítóját, a kliens gép nevét és IP címét
+valamint a kliens gépen az operációs rendszerbeli azonosítót.
+Most mindenkinek csak a saját bejelentkezései naplózásához van joga,
+de a trigger nagyon hasonló lenne az általános esetben is.
+
+TIPP: nézzük meg az SQL reference doksiban a SYS_CONTEXT függvényt
+
