@@ -55,8 +55,7 @@ a trigger_log táblába. Az esemény oszlopba írja be, hogy a fizetés nem
 változott.
 */
 
--- The actual trigger.
-CREATE OR REPLACE TRIGGER GY01TRIGGER
+CREATE OR REPLACE TRIGGER RAISE_LOGGING
 BEFORE UPDATE OF FIZETES ON DOLGOZO
 FOR EACH ROW
 DECLARE
@@ -65,7 +64,7 @@ BEGIN
     IF :OLD.foglalkozas = 'PRESIDENT' THEN
         trigger_msg := trigger_msg || 'valtozatlan';
         :NEW.fizetes := :OLD.fizetes;
-        --RAISE_APPLICATION_ERROR(-20900, 'DONT MESS WITH THE BOSS!');
+        RAISE_APPLICATION_ERROR(-20900, 'DONT MESS WITH THE BOSS!');
     END IF;
     
     IF (:NEW.fizetes - :OLD.fizetes > 4000) THEN
@@ -88,3 +87,58 @@ UPDATE DOLGOZO SET FIZETES = FIZETES + 4801 WHERE FOGLALKOZAS = 'PRESIDENT';
 -- Evaluate.
 SELECT * FROM PW9YIK.DOLGOZO;
 SELECT * FROM PW9YIK.TRIGGER_LOG;
+
+---=== 2. Feladat ===---
+/*
+Hozzunk létre egy TRIGGER_LOG2 nevű táblát is, aminek a szerkezete a következő:
+     ( idopont     DATE, 
+       muvelet     VARCHAR2(20), 
+       uj_osszfiz  NUMBER
+     )
+*/
+
+DROP TABLE TRIGGER_LOG2;
+CREATE TABLE TRIGGER_LOG2(
+    idopont    DATE,
+    muvelet    VARCHAR2(20),
+    uj_osszfiz NUMBER
+);
+
+SELECT * FROM TRIGGER_LOG2;
+
+/*
+Hozzunk létre egy triggert, ami akkor aktivizálodik ha a dolgozo tablara
+valamilyen modosito muveletet (INSERT, DELETE, UPDATE) hajtanak vegre.
+A trigger irja be a trigger_log2 tablaba a modositas idopontjat, a muveletet
+es az uj osszfizetest. Ha az uj osszfizetes nagyobb lenne mint 40000, akkor
+a trigger utasitsa vissza a modosito muveletet, és hibaüzenetkent küldje vissza,
+hogy 'Tul nagy osszfizetes'. Ez esetben naplóznia sem kell.
+*/
+
+CREATE OR REPLACE TRIGGER EVENT_LOGGER
+AFTER UPDATE OR INSERT OR DELETE ON DOLGOZO
+DECLARE
+    uj_ossz_fiz  NUMBER;
+BEGIN
+    SELECT SUM(fizetes) INTO uj_ossz_fiz FROM DOLGOZO;
+    IF (uj_ossz_fiz > 40000) THEN
+        RAISE_APPLICATION_ERROR(-20900, 'NOT AFFORDABLE!');
+    END IF;
+
+    INSERT INTO TRIGGER_LOG2 (idopont, muvelet, uj_osszfiz)
+    VALUES (CURRENT_TIMESTAMP, 'modositas', uj_ossz_fiz);
+END;
+/
+
+-- Take a look at the original tables.
+SELECT * FROM PW9YIK.DOLGOZO;
+SELECT SUM(fizetes) FROM PW9YIK.DOLGOZO;
+SELECT * FROM PW9YIK.TRIGGER_LOG2;
+
+-- Update to test the trigger.
+UPDATE DOLGOZO SET FIZETES = FIZETES + 40500;
+UPDATE DOLGOZO SET FIZETES = FIZETES + 100;
+
+-- Evaluate.
+SELECT * FROM PW9YIK.DOLGOZO;
+SELECT * FROM PW9YIK.TRIGGER_LOG2;
